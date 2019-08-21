@@ -20,11 +20,6 @@ export default {
       type: Object,
       defaul: null,
       required: true
-    },
-    isActive: {
-      type: Boolean,
-      default: false,
-      required: true
     }
   },
   data () {
@@ -35,6 +30,9 @@ export default {
     }
   },
   computed: {
+    isActive () {
+      return this.quoteData.isActive
+    },
     randomPos () {
       return {
         marginTop: `${Math.random() * 150}px`,
@@ -103,6 +101,7 @@ export default {
     pauseSound () {
       this.sound.pause()
       this.isSoundPlaying = false
+      this.quoteData.isActive = false
     },
     soundPlayed () {
     },
@@ -127,7 +126,7 @@ export default {
 }
 
 blockquote {
-
+  font-weight: 700;
   &:before {
     content: '\201C';
     font-size: 1.5rem;

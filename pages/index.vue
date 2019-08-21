@@ -20,7 +20,6 @@
           v-for="(quote, ind) in chapterRow.stories"
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
           :quote-data="quote"
-          :is-active="currQuote === getQuoteIndex(chapterID, ind)"
         />
       </div>
     </div>
@@ -38,12 +37,18 @@ export default {
   },
   data () {
     return {
-      currQuote: 0
+      current: {
+        chapter: 0,
+        quote: -1
+      }
     }
   },
   computed: {
     totalStories () {
       return this.storiesChapters.reduce((acc, e) => acc + e.length, 0)
+    },
+    totalChapters () {
+      return this.storiesChapters.length
     }
   },
   async asyncData (ctx) {
@@ -52,6 +57,8 @@ export default {
       .then(d => d.text())
       .then(d => csvParse(d))
       .then(d => d.filter(e => e.Audio_Source !== 'noaudio'))
+      .then(d => d.map(e => Object.assign({ isActive: false }, e)))
+
     const storiesChapters = Array.from(group(csvdata, e => e.Chapter),
       ([key, value]) => ({ chapter: key, stories: value, length: value.length }))
     return {
@@ -67,7 +74,14 @@ export default {
   },
   methods: {
     playNext () {
-      this.currQuote = (this.currQuote + 1) % this.totalStories
+      const quotesLenght = this.storiesChapters[this.current.chapter].length - 1
+      if (this.current.quote < quotesLenght) {
+        this.current.quote++
+      } else {
+        this.current.quote = 0
+        this.current.chapter = (this.current.chapter + 1) % this.totalChapters
+      }
+      this.storiesChapters[this.current.chapter].stories[this.current.quote].isActive = true
     },
     getQuoteIndex (chapterID, ind) {
       return ind + (chapterID > 0 ? this.storiesChapters[chapterID - 1].length : 0)
@@ -84,6 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .quotes-container{
   position: relative;
   display: flex;
@@ -92,8 +107,11 @@ export default {
 article{
   max-width: 40em;
   margin:auto;
-
+  // margin-bottom: 1em;
 }
-.container{
+// .container{
+// }
+h2 {
+  text-align: center;
 }
 </style>
