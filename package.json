@@ -15,7 +15,8 @@
     "d3-array": "^2.2.0",
     "d3-dsv": "^1.1.1",
     "howler": "^2.1.2",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "scrollmagic": "^2.0.7"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",

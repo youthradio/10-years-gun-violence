@@ -35,6 +35,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {
+      src: '~plugins/scrollmagic.js',
+      ssr: false
+    }
   ],
   /*
   ** Nuxt.js dev-modules
