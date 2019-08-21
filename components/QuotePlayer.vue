@@ -37,9 +37,8 @@ export default {
   computed: {
     randomPos () {
       return {
-        marginTop: `${Math.random() * 0}px`,
-        marginLeft: `${Math.random() * 300}px`,
-        marginRight: `${Math.random() * 300}px`
+        marginTop: `${Math.random() * 150}px`,
+        marginLeft: `${(Math.random() - 0.5) * 2 * 50}px`
       }
     },
     startTime () {
@@ -53,7 +52,7 @@ export default {
     blurStyle () {
       if (!this.isSoundPlaying) {
         return {
-          filter: 'blur(15px)'
+          filter: 'blur(30px)'
         }
       }
       return {
@@ -74,6 +73,7 @@ export default {
     this.sound = new Howl({
       autoplay: true,
       volume: 0.1,
+      // preload: false,
       loop: false,
       src: [this.quoteData.Audio_Source],
       sprite: {
@@ -85,12 +85,16 @@ export default {
     this.sound.once('end', this.soundPaused)
     this.sound.once('pause', this.soundPaused)
   },
+  beforeDestroy () {
+    this.sound.unload()
+  },
   methods: {
     soundLoaded () {
       // eslint-disable-next-line no-console
       console.log(this.quoteData.title, 'LOADED')
     },
     playSound () {
+      // this.sound.load()
       if (this.sound.state() === 'loaded' && !this.isSoundPlaying) {
         this.isSoundPlaying = true
         this.soundID = this.sound.play('quote')
@@ -113,11 +117,13 @@ export default {
 
 .quote-container{
   // float:right;
+  position: absolute;
   user-select: none;
+  max-width: 32em;
 }
 
 .blur{
-  transition: filter 0.5s;
+  transition: filter 0.2s;
 }
 
 blockquote {
