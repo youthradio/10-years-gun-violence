@@ -69,14 +69,14 @@ export default {
   },
   created () {
     this.sound = new Howl({
-      autoplay: true,
+      autoplay: false,
       volume: 0.1,
       // preload: false,
       loop: false,
-      src: [this.quoteData.Audio_Source],
-      sprite: {
-        quote: [this.startTime * 1000, this.durationTime * 1000]
-      }
+      src: [`audios/${this.quoteData.File_Name}`]
+      // sprite: {
+      //   quote: [this.startTime * 1000, this.durationTime * 1000]
+      // }
     })
     this.sound.once('load', this.soundLoad)
     this.sound.once('play', this.soundPlayed)
@@ -95,7 +95,7 @@ export default {
       // this.sound.load()
       if (this.sound.state() === 'loaded' && !this.isSoundPlaying) {
         this.isSoundPlaying = true
-        this.soundID = this.sound.play('quote')
+        this.soundID = this.sound.play()
       }
     },
     pauseSound () {

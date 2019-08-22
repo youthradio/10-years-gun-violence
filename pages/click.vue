@@ -31,7 +31,7 @@ import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
 
 import QuotePlayer from '~/components/QuotePlayer.vue'
-const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?gid=0&single=true&output=csv'
+const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
     QuotePlayer
@@ -58,7 +58,7 @@ export default {
     const csvdata = await fetch(DURL)
       .then(d => d.text())
       .then(d => csvParse(d))
-      .then(d => d.filter(e => e.Audio_Source !== 'noaudio'))
+      .then(d => d.filter(e => e.File_Name !== 'noaudio'))
       .then(d => d.map(e => Object.assign({ isActive: false }, e)))
 
     const storiesChapters = Array.from(group(csvdata, e => e.Chapter),

@@ -12,11 +12,26 @@
         </nuxt-link>
       </li>
     </ul>
+    <div>
+      <h2 ref="header">
+        Test
+      </h2>
+    </div>
   </div>
 </template>
 
 <script>
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+    createBlurAnimation () {
 
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
