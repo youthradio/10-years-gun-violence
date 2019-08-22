@@ -16,7 +16,10 @@
       class="chapter"
     >
       <h2> {{ chapterRow.chapter }}</h2>
-      <div ref="quotesContainer" class="quotes-container">
+      <div
+        ref="quotesContainer"
+        class="quotes-container"
+      >
         <QuotePlayer
           v-for="(quote, ind) in chapterRow.stories"
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
@@ -41,10 +44,9 @@ export default {
     return {
       current: {
         chapter: -1,
-        quote: -1,
-        lastQuote: -1,
-        lastChapter: -1
+        quote: -1
       },
+      scrollState: null,
       controller: null,
       scenes: []
     }
@@ -56,6 +58,21 @@ export default {
     totalChapters () {
       return this.storiesChapters.length
     }
+  },
+  watch: {
+    // current: {
+    //   handler (newVal, oldVal) {
+    //     console.log(this.scrollState, newVal.chapter, newVal.quote, oldVal.chapter, oldVal.quote)
+    //     if (this.scrollState === 'FORWARD') {
+    //       const chapterData = this.storiesChapters[newVal.chapter]
+    //       chapterData.stories[newVal.quote].isActive = true
+    //     } else if (this.scrollState === 'REVERSE') {
+    //       const chapterData = this.storiesChapters[oldVal.chapter]
+    //       chapterData.stories[oldVal.quote].isActive = false
+    //     }
+    //   },
+    //   deep: true
+    // }
   },
   async asyncData (ctx) {
     // const slug = await ctx.params.slug
@@ -118,7 +135,13 @@ export default {
       // keep track of last state
       this.current.lastQuote = this.current.quote
       this.current.lastChapter = this.current.chapter
+      this.current.chapter = chapterID
+      // const chapterData = this.storiesChapters[chapterID]
 
+      // this.current.quote = ~~(progress * (chapterData.stories.length - 1))
+      this.scrollState = scrollDirection
+
+      // console.log(this.current.lastQuote, this.current.lastChapter)
       if (this.storiesChapters[this.current.lastChapter]) {
         const lastChapterData = this.storiesChapters[this.current.lastChapter]
 
@@ -129,7 +152,7 @@ export default {
 
       this.current.chapter = chapterID
       const chapterData = this.storiesChapters[chapterID]
-      this.current.quote = ~~(progress * chapterData.stories.length)
+      this.current.quote = ~~(progress * (chapterData.stories.length - 1))
 
       chapterData.stories[this.current.quote].isActive = true
     }
@@ -138,15 +161,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.quotes-container{
+.quotes-container {
   position: relative;
   display: flex;
   justify-content: center;
 }
-article{
+article {
   max-width: 40em;
-  margin:auto;
+  margin: auto;
   // margin-bottom: 1em;
 }
 // .container{
