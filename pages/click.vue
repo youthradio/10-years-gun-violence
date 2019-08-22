@@ -77,6 +77,9 @@ export default {
   methods: {
     playNext () {
       const quotesLenght = this.storiesChapters[this.current.chapter].length - 1
+      if (this.storiesChapters[this.current.chapter].stories[this.current.quote]) {
+        this.storiesChapters[this.current.chapter].stories[this.current.quote].isActive = false
+      }
       if (this.current.quote < quotesLenght) {
         this.current.quote++
       } else {

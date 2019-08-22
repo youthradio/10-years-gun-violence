@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @click="playNext">
+  <div class="container">
     <article>
       <p>
         Guns are a dominant force in young people’s lives, whether through direct experiences of gun violence in their communities, regularly scheduled “live shooter” lockdowns that are the new normal to prepare for school shootings, because they advocate for gun access or fight for gun policy reform, or because they are targeted by police violence aimed at black and brown youth.
@@ -32,7 +32,7 @@ import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 
-const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?gid=0&single=true&output=csv'
+const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
     QuotePlayer
@@ -40,8 +40,10 @@ export default {
   data () {
     return {
       current: {
-        chapter: 0,
-        quote: -1
+        chapter: -1,
+        quote: -1,
+        lastQuote: -1,
+        lastChapter: -1
       },
       controller: null,
       scenes: []
@@ -60,7 +62,7 @@ export default {
     const csvdata = await fetch(DURL)
       .then(d => d.text())
       .then(d => csvParse(d))
-      .then(d => d.filter(e => e.Audio_Source !== 'noaudio'))
+      .then(d => d.filter(e => e.File_Name !== 'noaudio'))
       .then(d => d.map(e => Object.assign({ isActive: false }, e)))
 
     const storiesChapters = Array.from(group(csvdata, e => e.Chapter),
@@ -113,12 +115,23 @@ export default {
       })
     },
     sceneEvent ({ progress, scrollDirection, state }, chapterID) {
-      const chapter = this.storiesChapters[chapterID]
-      if (scrollDirection === 'FORWARD') {
-        chapter.stories[(~~(progress * chapter.length))].isActive = true
-      } else {
-        chapter.stories[(~~(progress * chapter.length))].isActive = false
+      // keep track of last state
+      this.current.lastQuote = this.current.quote
+      this.current.lastChapter = this.current.chapter
+
+      if (this.storiesChapters[this.current.lastChapter]) {
+        const lastChapterData = this.storiesChapters[this.current.lastChapter]
+
+        if (lastChapterData.stories[this.current.lastQuote]) {
+          lastChapterData.stories[this.current.lastQuote].isActive = false
+        }
       }
+
+      this.current.chapter = chapterID
+      const chapterData = this.storiesChapters[chapterID]
+      this.current.quote = ~~(progress * chapterData.stories.length)
+
+      chapterData.stories[this.current.quote].isActive = true
     }
   }
 }

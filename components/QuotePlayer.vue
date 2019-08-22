@@ -1,6 +1,12 @@
 <template>
-  <div class="quote-container" :style=" randomPos ">
-    <diV class="blur" :style="blurStyle">
+  <div
+    class="quote-container"
+    :style=" randomPos "
+  >
+    <diV
+      class="blur"
+      :style="blurStyle"
+    >
       <blockquote>
         {{ quoteData.Quote }}
       </blockquote>
@@ -50,11 +56,15 @@ export default {
     blurStyle () {
       if (!this.isSoundPlaying) {
         return {
-          filter: 'blur(30px)'
+          // filter: 'blur(30px)',
+          transform: 'scale(1)',
+          opacity: '0.1'
         }
       }
       return {
-        filter: 'unset'
+        // filter: 'unset',
+        transform: 'scale(1.2)',
+        opacity: '0.99'
       }
     }
   },
@@ -99,7 +109,8 @@ export default {
       }
     },
     pauseSound () {
-      this.sound.pause()
+      // this.sound.pause()
+      this.sound.stop()
       this.isSoundPlaying = false
       this.quoteData.isActive = false
     },
@@ -113,29 +124,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.quote-container{
+.quote-container {
   // float:right;
   position: absolute;
   user-select: none;
   max-width: 32em;
 }
 
-.blur{
-  transition: filter 0.2s;
+.blur {
+  transition: transform, opacity;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
 }
 
 blockquote {
   font-weight: 700;
   &:before {
-    content: '\201C';
+    content: "\201C";
     font-size: 1.5rem;
     /* margin-right: 4px; */
     /* margin-left: -8px; */
   }
 
   &:after {
-    content: '\201D';
+    content: "\201D";
     font-size: 1.5rem;
     /* margin-left: 4px; */
     /* margin-right: -8px; */
