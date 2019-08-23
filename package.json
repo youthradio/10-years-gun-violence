@@ -5,7 +5,7 @@
   "author": "Radames Ajna",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname $LOCALIP",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate && rm -rf _site/* && cp -R dist/ _site/",
@@ -13,20 +13,20 @@
     "gh-pages": "npm run generate && cd _site && git add . && git commit --amend --no-edit && git push  origin gh-pages --force"
   },
   "dependencies": {
-    "d3-array": "^2.2.0",
+    "d3-array": "^2.3.1",
     "d3-dsv": "^1.1.1",
     "howler": "^2.1.2",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.9.1",
     "scrollmagic": "^2.0.7"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
-    "dotenv": "^8.0.0",
-    "eslint": "^6.1.0",
+    "dotenv": "^8.1.0",
+    "eslint": "^6.2.1",
     "eslint-plugin-nuxt": ">=0.4.2",
     "node-sass": "^4.12.0",
-    "sass-loader": "^7.2.0"
+    "sass-loader": "^7.3.1"
   }
 }
