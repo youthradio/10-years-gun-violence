@@ -10,3 +10,5 @@ const PScrollMagic = {
   }
 }
 Vue.use(PScrollMagic)
+
+export default PScrollMagic

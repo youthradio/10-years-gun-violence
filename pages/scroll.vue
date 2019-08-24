@@ -9,6 +9,9 @@
         young people’s lives for more than 25 years — in fact reporting on homicides in the San Francisco Bay Area was the impetus to establish the organization in 1992. We sampled from the past 10 years of our archive to tell a different kind of gun story. We bring you a collection of voices that shows the huge range of perspectives young people bring to gun violence. The conversation can be overwhelming and that is part of the experience we aim to capture here, as well as the phenomenon we’ve noticed, that every time a national event takes place related to guns, one point of focus takes all the attention — this month’s mass shootings in El Paso, Texas and Dayton, Ohio are the latest example — and the rest of the voices are drowned out. In this interactive, we aim to keep the range of voices in play, so as a community we remember all the different ways that guns touch our lives, even when a singular event draws our attention to one devastating act of violence.
       </p>
     </article>
+    <div class="mute-button">
+      <UnMuteButton :audio-context="audioContext" @mutedEvent="mutedEvent" />
+    </div>
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
@@ -33,12 +36,15 @@
 <script>
 import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
+import { Howler } from 'howler'
 import QuotePlayer from '~/components/QuotePlayer.vue'
+import UnMuteButton from '~/components/UnMuteButton.vue'
 
 const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
-    QuotePlayer
+    QuotePlayer,
+    UnMuteButton
   },
   data () {
     return {
@@ -52,14 +58,24 @@ export default {
     }
   },
   computed: {
+    audioContext () {
+      // return null
+      return Howler.ctx
+    },
     totalStories () {
       return this.storiesChapters.reduce((acc, e) => acc + e.length, 0)
     },
     totalChapters () {
       return this.storiesChapters.length
+    },
+    globalMutedState () {
+      return Howler._muted
     }
   },
-  watch: {
+  watched: {
+    globalMutedState () {
+      console.log(this.globalMutedState)
+    }
     // current: {
     //   handler (newVal, oldVal) {
     //     console.log(this.scrollState, newVal.chapter, newVal.quote, oldVal.chapter, oldVal.quote)
@@ -89,15 +105,21 @@ export default {
     }
   },
   mounted () {
-    this.setParentsHeight()
+    Howler.autoUnlock = true
+    Howler.volume(0.5)
     window.addEventListener('resize', this.setParentsHeight)
     this.controller = new this.$ScrollMagic.Controller()
+    this.setParentsHeight()
     this.createScenes()
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setParentsHeight)
   },
   methods: {
+    mutedEvent (state) {
+      Howler.mute(state)
+      // this.$Howler._muted
+    },
     playNext () {
       const quotesLenght = this.storiesChapters[this.current.chapter].length - 1
       if (this.current.quote < quotesLenght) {
@@ -114,15 +136,16 @@ export default {
     setParentsHeight () {
       this.$refs.quotesContainer.forEach((container) => {
         const containerY = container.getBoundingClientRect().y
-        const maxheight = Math.max(...Array.from(container.children).map(e => e.getBoundingClientRect().height + e.getBoundingClientRect().y - containerY + 50))
+        const maxheight = Math.max(...Array.from(container.children).map(e => e.getBoundingClientRect().height + e.getBoundingClientRect().y - containerY))
         container.style.height = `${maxheight}px`
       })
     },
     createScenes () {
       this.$refs.chapters.forEach((chapterRef, chapterID) => {
+        const elHeight = chapterRef.getBoundingClientRect().height
         const scene = new this.$ScrollMagic.Scene({
-          // triggerHook: 'onLeave',
-          offset: chapterRef.getBoundingClientRect().height / 2,
+          // triggerHook: 'onEnter',
+          offset: elHeight,
           duration: 2000
         })
         scene.triggerElement(chapterRef)
@@ -165,6 +188,15 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
+  // align-items: center;
+}
+.mute-button{
+  display: sticky;
+  justify-content: flex-end;
+  position: sticky;
+  right: 0px;
+  top: 0px;
+  z-index: 1000;
 }
 article {
   max-width: 40em;
