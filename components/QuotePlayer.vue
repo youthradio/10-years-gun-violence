@@ -3,8 +3,19 @@
     class="quote-container"
     :style=" randomPos "
   >
-    <diV
-      class="blur"
+    <div
+      class="fade"
+      :style="fadeStyle"
+    >
+      <blockquote>
+        {{ quoteData.Quote }}
+      </blockquote>
+      <h5>
+        {{ quoteData.Title }} {{ quoteData.Year }}
+      </h5>
+    </div>
+    <div
+      class="duplicated fade"
       :style="blurStyle"
     >
       <blockquote>
@@ -32,7 +43,9 @@ export default {
     return {
       sound: null,
       soundID: null,
-      isSoundPlaying: false
+      isSoundPlaying: false,
+      screenHeight: 0,
+      screenWidth: 0
     }
   },
   computed: {
@@ -41,8 +54,8 @@ export default {
     },
     randomPos () {
       return {
-        marginTop: `${Math.random() * 150}px`,
-        marginLeft: `${(Math.random() - 0.5) * 2 * 50}px`
+        marginTop: `${Math.random() * this.screenHeight * 0.20}px`,
+        marginLeft: `${(Math.random() - 0.5) * 2 * this.screenWidth * 0.1}px`
       }
     },
     startTime () {
@@ -56,16 +69,32 @@ export default {
     blurStyle () {
       if (!this.isSoundPlaying) {
         return {
-          // filter: 'blur(30px)',
           transform: 'scale(1)',
-          opacity: '0.1'
+          opacity: '0.2'
         }
       }
       return {
         // filter: 'unset',
-        transform: 'scale(1.2)',
+        transform: 'scale(1.1)',
+        opacity: '0.0'
+      }
+    },
+    fadeStyle () {
+      if (!this.isSoundPlaying) {
+        return {
+          transform: 'scale(1)',
+          opacity: '0.0'
+        }
+      }
+      return {
+        // filter: 'unset',
+        transform: 'scale(1.1)',
         opacity: '0.99'
       }
+    },
+    fileName () {
+      // return only file name
+      return this.quoteData.File_Name.split('.')[0]
     }
   },
   watch: {
@@ -77,13 +106,18 @@ export default {
       }
     }
   },
+  mounted () {
+    this.screenHeight = window.screen.height
+    this.screenWidth = window.screen.width
+  },
   created () {
+    // eslint-disable-next-line no-undef
     this.sound = new Howl({
       autoplay: false,
-      volume: 0.1,
+      volume: 1.0,
       // preload: false,
       loop: false,
-      src: [`audios/${this.quoteData.File_Name}`]
+      src: [`audios/${this.fileName}.webm`, `audios/${this.fileName}.mp3`]
       // sprite: {
       //   quote: [this.startTime * 1000, this.durationTime * 1000]
       // }
@@ -130,8 +164,13 @@ export default {
   user-select: none;
   max-width: 32em;
 }
-
-.blur {
+.duplicated{
+  position: absolute;
+  filter: blur(5px);
+  top: 0px;
+  left: 0px;
+}
+.fade {
   transition: transform, opacity;
   transition-duration: 1s;
   transition-timing-function: ease-in-out;
@@ -139,6 +178,8 @@ export default {
 
 blockquote {
   font-weight: 700;
+  margin: 0px;
+
   &:before {
     content: "\201C";
     font-size: 1.5rem;
