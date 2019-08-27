@@ -61,11 +61,11 @@ export default {
     */
     extend (config, ctx) {
     }
-  },
-  server: {
-    https: {
-      key: readFileSync(`${process.env.SSLKEY}`),
-      cert: readFileSync(`${process.env.SSLCRT}`)
-    }
   }
+  // server: {
+  //   https: {
+  //     key: readFileSync(`${process.env.SSLKEY}`),
+  //     cert: readFileSync(`${process.env.SSLCRT}`)
+  //   }
+  // }
 }
