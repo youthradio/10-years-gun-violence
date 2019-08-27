@@ -2,13 +2,12 @@
   <div class="container" @click="playNext">
     <article>
       <p>
-        Guns are a dominant force in young people’s lives, whether through direct experiences of gun violence in their communities, regularly scheduled “live shooter” lockdowns that are the new normal to prepare for school shootings, because they advocate for gun access or fight for gun policy reform, or because they are targeted by police violence aimed at black and brown youth.
-      </p>
-      <p>
-        YR has been telling stories about guns in
-        young people’s lives for more than 25 years — in fact reporting on homicides in the San Francisco Bay Area was the impetus to establish the organization in 1992. We sampled from the past 10 years of our archive to tell a different kind of gun story. We bring you a collection of voices that shows the huge range of perspectives young people bring to gun violence. The conversation can be overwhelming and that is part of the experience we aim to capture here, as well as the phenomenon we’ve noticed, that every time a national event takes place related to guns, one point of focus takes all the attention — this month’s mass shootings in El Paso, Texas and Dayton, Ohio are the latest example — and the rest of the voices are drowned out. In this interactive, we aim to keep the range of voices in play, so as a community we remember all the different ways that guns touch our lives, even when a singular event draws our attention to one devastating act of violence.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
       </p>
     </article>
+    <div class="mute-button">
+      <UnMuteButton :audio-context="audioContext" @mutedEvent="mutedEvent" />
+    </div>
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
@@ -29,12 +28,14 @@
 <script>
 import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
-
 import QuotePlayer from '~/components/QuotePlayer.vue'
+import UnMuteButton from '~/components/UnMuteButton.vue'
+
 const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
-    QuotePlayer
+    QuotePlayer,
+    UnMuteButton
   },
   data () {
     return {
@@ -103,7 +104,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.mute-button{
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  right: 0px;
+  top: 0px;
+  z-index: 1000;
+}
 .quotes-container{
   position: relative;
   display: flex;

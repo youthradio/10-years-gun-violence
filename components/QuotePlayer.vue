@@ -14,17 +14,6 @@
         {{ quoteData.Title }} {{ quoteData.Year }}
       </h5>
     </div>
-    <div
-      class="duplicated fade"
-      :style="blurStyle"
-    >
-      <blockquote>
-        {{ quoteData.Quote }}
-      </blockquote>
-      <h5>
-        {{ quoteData.Title }} {{ quoteData.Year }}
-      </h5>
-    </div>
   </div>
 </template>
 
@@ -66,30 +55,16 @@ export default {
       const time = this.quoteData.End.split(':')
       return (+time[1] * 60 + +time[2]) - this.startTime
     },
-    blurStyle () {
-      if (!this.isSoundPlaying) {
-        return {
-          transform: 'scale(1)',
-          opacity: '0.2'
-        }
-      }
-      return {
-        // filter: 'unset',
-        transform: 'scale(1.1)',
-        opacity: '0.0'
-      }
-    },
     fadeStyle () {
       if (!this.isSoundPlaying) {
         return {
-          transform: 'scale(1)',
-          opacity: '0.0'
+          opacity: '0.05'
         }
       }
       return {
-        // filter: 'unset',
         transform: 'scale(1.1)',
-        opacity: '0.99'
+        opacity: '0.99',
+        textShadow: '0px 0px 20px white'
       }
     },
     fileName () {
@@ -164,18 +139,11 @@ export default {
   user-select: none;
   max-width: 32em;
 }
-.duplicated{
-  position: absolute;
-  filter: blur(5px);
-  top: 0px;
-  left: 0px;
-}
 .fade {
-  transition: transform, opacity;
+  transition: transform, opacity, text-shadow;
   transition-duration: 1s;
   transition-timing-function: ease-in-out;
 }
-
 blockquote {
   font-weight: 700;
   margin: 0px;
