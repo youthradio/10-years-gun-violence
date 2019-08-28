@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="bt-box" @click="unMute">
-      <span class="mute-text">{{ ( muteState? 'MUTED' : 'NOT MUTED') }}</span>
+      <span class="mute-text">{{ ( muteState? 'TURN SOUND ON' : 'MUTE') }}</span>
       <svg
         v-if="!muteState"
         aria-hidden="true"
@@ -79,18 +79,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/css/vars';
+
 .p-button {
   width: 100%;
-  max-width: 25px;
+  max-width: 1rem;
   height: auto;
 }
 .mute-text{
-  margin-right: 1em;
+  margin-right: 1rem;
+  font-size: 0.8rem;
 }
 .bt-box{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-radius: 5px;
+  border: 0;
+  background-color: lighten($color: $dark, $amount: 20%);
+  border-radius: 1px;
 }
 </style>>

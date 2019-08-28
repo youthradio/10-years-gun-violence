@@ -1,11 +1,12 @@
 <template>
-  <div class="container">
+  <div ref="container" class="container">
     <article>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
       </p>
     </article>
-    <div class="mute-button">
+    <div ref="mutecontainer" class="mute-button">
+      <div ref="topsentinel" class="sticky_sentinel--top" />
       <UnMuteButton
         :audio-context="audioContext"
         @mutedEvent="mutedEvent"
@@ -108,6 +109,15 @@ export default {
     this.controller = new this.$ScrollMagic.Controller()
     this.setParentsHeight()
     this.createScenes()
+    const observer = new IntersectionObserver((entries, observer) => {
+      const entry = entries.pop()
+      // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
+      // this.$refs.topsentinel.textContent = `${(entry.intersectionRatio * 100).toFixed(0)}% visible`
+      this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
+    }, {
+      threshold: Array.from({ length: 51 }, (d, i) => i / 50)
+    })
+    observer.observe(this.$refs.topsentinel)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setParentsHeight)
@@ -143,7 +153,7 @@ export default {
         const scene = new this.$ScrollMagic.Scene({
           // triggerHook: 'onEnter',
           offset: elHeight,
-          duration: 3000
+          duration: 4000
         })
         scene.triggerElement(chapterRef)
           .setPin(chapterRef)
@@ -192,11 +202,14 @@ export default {
 }
 .mute-button {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   position: sticky;
   right: 0px;
   top: 0px;
   z-index: 1000;
+}
+.flex-end {
+  justify-content: flex-end;
 }
 article {
   max-width: 40em;
@@ -208,4 +221,15 @@ article {
 h2 {
   text-align: center;
 }
+
+.sticky_sentinel--top{
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: red;
+  visibility: hidden;
+  height: 40px;
+  bottom: 100%;
+}
+
 </style>

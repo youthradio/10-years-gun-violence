@@ -44,7 +44,7 @@ export default {
     randomPos () {
       return {
         marginTop: `${Math.random() * this.screenHeight * 0.20}px`,
-        marginLeft: `${(Math.random() - 0.5) * 2 * this.screenWidth * 0.1}px`
+        marginLeft: `${-2 * (Math.random() - 0.5) * 2}rem`
       }
     },
     startTime () {
@@ -62,7 +62,7 @@ export default {
         }
       }
       return {
-        transform: 'scale(1.1)',
+        transform: `scale(1.0)`,
         opacity: '0.99',
         textShadow: '0px 0px 20px white'
       }
@@ -141,8 +141,9 @@ export default {
 }
 .fade {
   transition: transform, opacity, text-shadow;
-  transition-duration: 1s;
+  transition-duration: 0.8s;
   transition-timing-function: ease-in-out;
+  transform-origin: 50% 50%;
 }
 blockquote {
   font-weight: 700;
