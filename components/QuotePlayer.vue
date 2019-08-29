@@ -33,8 +33,8 @@ export default {
       sound: null,
       soundID: null,
       isSoundPlaying: false,
-      screenHeight: 0,
-      screenWidth: 0
+      innerWidth: 0,
+      innerHeight: 0
     }
   },
   computed: {
@@ -42,9 +42,10 @@ export default {
       return this.quoteData.isActive
     },
     randomPos () {
+      const w = this.innerWidth > 500 ? 10 : 0.5
       return {
-        marginTop: `${Math.random() * 10}rem`,
-        marginLeft: `${-2 * (Math.random() - 0.5) * 10}rem`
+        marginTop: `${Math.random() * w}em`,
+        marginLeft: `${-2 * (Math.random() - 0.5) * w}em`
       }
     },
     startTime () {
@@ -58,12 +59,13 @@ export default {
     fadeStyle () {
       if (!this.isSoundPlaying) {
         return {
+          transform: `scale(0.9)`,
           opacity: '0.05'
         }
       }
       return {
-        transform: `scale(1.0)`,
         opacity: '0.99',
+        transform: `scale(1)`,
         textShadow: '0px 0px 20px white'
       }
     },
@@ -82,8 +84,8 @@ export default {
     }
   },
   mounted () {
-    this.screenHeight = window.screen.height
-    this.screenWidth = window.screen.width
+    this.innerWidth = window.innerWidth
+    this.innerHeight = window.innerHeight
   },
   created () {
     // eslint-disable-next-line no-undef
@@ -145,9 +147,12 @@ export default {
   transition-timing-function: ease-in-out;
   transform-origin: 50% 50%;
 }
+h4 {
+  margin: 2em;
+}
 blockquote {
   font-weight: 700;
-  margin: 0px;
+  margin: 1em;
 
   &:before {
     content: "\201C";
