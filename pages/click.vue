@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @click="playNext">
+  <div class="container">
     <article>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
@@ -20,6 +20,10 @@
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
           :quote-data="quote"
         />
+        <div class="click-area">
+          <div @click="playNext(-1, chapterID)" />
+          <div @click="playNext(+1, chapterID)" />
+        </div>
       </div>
     </div>
   </div>
@@ -39,10 +43,7 @@ export default {
   },
   data () {
     return {
-      current: {
-        chapter: 0,
-        quote: -1
-      },
+      current: {},
       controller: null
     }
   },
@@ -76,18 +77,23 @@ export default {
     window.removeEventListener('resize', this.setParentsHeight)
   },
   methods: {
-    playNext () {
-      const quotesLenght = this.storiesChapters[this.current.chapter].length - 1
-      if (this.storiesChapters[this.current.chapter].stories[this.current.quote]) {
-        this.storiesChapters[this.current.chapter].stories[this.current.quote].isActive = false
+    playNext (dir, chapterID) {
+      if (!this.current.hasOwnProperty(chapterID)) {
+        this.current[chapterID] = 0
       }
-      if (this.current.quote < quotesLenght) {
-        this.current.quote++
+      // console.log(dir, chapterID)
+      const quotesLenght = this.storiesChapters[chapterID].length - 1
+      if (this.storiesChapters[chapterID].stories[this.current[chapterID]]) {
+        this.storiesChapters[chapterID].stories[this.current[chapterID]].isActive = false
+      }
+      if (dir > 0) {
+        this.current[chapterID]++
+        this.current[chapterID] = this.current[chapterID] > quotesLenght ? 0 : this.current[chapterID]
       } else {
-        this.current.quote = 0
-        this.current.chapter = (this.current.chapter + 1) % this.totalChapters
+        this.current[chapterID]--
+        this.current[chapterID] = this.current[chapterID] < 0 ? quotesLenght : this.current[chapterID]
       }
-      this.storiesChapters[this.current.chapter].stories[this.current.quote].isActive = true
+      this.storiesChapters[chapterID].stories[this.current[chapterID]].isActive = true
     },
     getQuoteIndex (chapterID, ind) {
       return ind + (chapterID > 0 ? this.storiesChapters[chapterID - 1].length : 0)
@@ -126,5 +132,16 @@ article{
 // }
 h2 {
   text-align: center;
+}
+.click-area{
+  z-index: 2000;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  > div{
+    height: 100%;
+    width: 100%;
+    // background-color: #ff0000af;
+  }
 }
 </style>
