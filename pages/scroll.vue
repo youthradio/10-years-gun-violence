@@ -7,6 +7,7 @@
     </article>
     <div ref="mutecontainer" class="mute-button">
       <div ref="topsentinel" class="sticky_sentinel--top" />
+      <div ref="progressbar" class="progress" />
       <UnMuteButton
         :audio-context="audioContext"
         @mutedEvent="mutedEvent"
@@ -109,15 +110,27 @@ export default {
     this.controller = new this.$ScrollMagic.Controller()
     this.setParentsHeight()
     this.createScenes()
-    const observer = new IntersectionObserver((entries, observer) => {
+    const muteObserver = new IntersectionObserver((entries, observer) => {
       const entry = entries.pop()
       // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
       // this.$refs.topsentinel.textContent = `${(entry.intersectionRatio * 100).toFixed(0)}% visible`
       this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
+      this.$refs.progressbar.classList.toggle('visibility', entry.intersectionRatio <= 0)
     }, {
       threshold: Array.from({ length: 51 }, (d, i) => i / 50)
     })
-    observer.observe(this.$refs.topsentinel)
+    muteObserver.observe(this.$refs.topsentinel)
+
+    let timeout
+    window.addEventListener('scroll', (event) => {
+      if (timeout) {
+        window.cancelAnimationFrame(timeout)
+      }
+      timeout = window.requestAnimationFrame(() => {
+        const p = window.scrollY / (document.querySelector('html').getBoundingClientRect().height - window.innerHeight)
+        this.$refs.progressbar.style.width = `${p * 100}%`
+      })
+    }, false)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setParentsHeight)
@@ -153,7 +166,7 @@ export default {
         const scene = new this.$ScrollMagic.Scene({
           // triggerHook: 'onEnter',
           offset: elHeight,
-          duration: 4000
+          duration: 2000
         })
         scene.triggerElement(chapterRef)
           .setPin(chapterRef)
@@ -194,6 +207,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/css/vars';
+
 .quotes-container {
   position: relative;
   display: flex;
@@ -220,8 +235,8 @@ article {
 // }
 h2 {
   text-align: center;
+  margin-bottom: 3rem;
 }
-
 .sticky_sentinel--top{
   position: absolute;
   left: 0;
@@ -231,5 +246,18 @@ h2 {
   height: 40px;
   bottom: 100%;
 }
+.progress{
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background-color: lighten($color: $dark, $amount: 20%);
+    width: 0%;
+    z-index: -1;
+    visibility: hidden;
 
+}
+.visibility {
+  visibility: visible;
+}
 </style>

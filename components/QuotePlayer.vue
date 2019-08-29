@@ -10,9 +10,9 @@
       <blockquote>
         {{ quoteData.Quote }}
       </blockquote>
-      <h5>
+      <h4>
         {{ quoteData.Title }} {{ quoteData.Year }}
-      </h5>
+      </h4>
     </div>
   </div>
 </template>
@@ -43,8 +43,8 @@ export default {
     },
     randomPos () {
       return {
-        marginTop: `${Math.random() * this.screenHeight * 0.20}px`,
-        marginLeft: `${-2 * (Math.random() - 0.5) * 2}rem`
+        marginTop: `${Math.random() * 10}rem`,
+        marginLeft: `${-2 * (Math.random() - 0.5) * 10}rem`
       }
     },
     startTime () {
@@ -141,7 +141,7 @@ export default {
 }
 .fade {
   transition: transform, opacity, text-shadow;
-  transition-duration: 0.8s;
+  transition-duration: 0.5s;
   transition-timing-function: ease-in-out;
   transform-origin: 50% 50%;
 }
@@ -151,14 +151,14 @@ blockquote {
 
   &:before {
     content: "\201C";
-    font-size: 1.5rem;
+    font-size: 2rem;
     /* margin-right: 4px; */
     /* margin-left: -8px; */
   }
 
   &:after {
     content: "\201D";
-    font-size: 1.5rem;
+    font-size: 2rem;
     /* margin-left: 4px; */
     /* margin-right: -8px; */
   }
