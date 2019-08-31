@@ -102,14 +102,22 @@ export default {
       storiesChapters
     }
   },
+  updated () {
+    this.$nextTick(() => {
+      console.log('TTT')
+      this.setParentsHeight()
+    })
+  },
   mounted () {
     Howler.autoUnlock = true
     Howler.volume(0.5)
     window.addEventListener('resize', this.setParentsHeight)
     this.audioContext = Howler.ctx
     this.controller = new this.$ScrollMagic.Controller()
+    // this.$nextTick(() => {
     this.setParentsHeight()
     this.createScenes()
+    // })
     const muteObserver = new IntersectionObserver((entries, observer) => {
       const entry = entries.pop()
       // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
@@ -155,8 +163,12 @@ export default {
     },
     setParentsHeight () {
       this.$refs.quotesContainer.forEach((container) => {
-        const containerY = container.getBoundingClientRect().y
-        const maxheight = Math.max(...Array.from(container.children).map(e => e.getBoundingClientRect().height + e.getBoundingClientRect().y - containerY))
+        const containerY = container.getBoundingClientRect().top
+        const maxheight = Math.max(...Array.from(container.children)
+          .map((el) => {
+            const elBox = el.getBoundingClientRect()
+            return elBox.y + elBox.height + parseFloat(el.style.marginTop) - containerY
+          }))
         container.style.height = `${maxheight}px`
       })
     },
@@ -175,7 +187,7 @@ export default {
       })
     },
     sceneEvent ({ progress, scrollDirection, state }, chapterID) {
-      let newprog = (progress - 0.2) / (0.8 - 0.2) * (1 - 0) + 0
+      let newprog = (progress - 0.05) / (0.8 - 0.05)
       newprog = Math.max(Math.min(newprog, 1), 0)
       // keep track of last state
       this.current.lastQuote = this.current.quote
@@ -194,7 +206,7 @@ export default {
           lastChapterData.stories[this.current.lastQuote].isActive = false
         }
       }
-      if (progress >= 0.2 && progress <= 0.8) {
+      if (progress >= 0.05 && progress <= 0.8) {
         this.current.chapter = chapterID
         const chapterData = this.storiesChapters[chapterID]
         this.current.quote = ~~(newprog * (chapterData.stories.length - 1))

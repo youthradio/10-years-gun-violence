@@ -20,10 +20,10 @@
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
           :quote-data="quote"
         />
-        <div class="click-area">
-          <div @click="playNext(-1, chapterID)" />
-          <div @click="playNext(+1, chapterID)" />
-        </div>
+      </div>
+      <div class="click-area">
+        <div @click="playNext(-1, chapterID)" />
+        <div @click="playNext(+1, chapterID)" />
       </div>
     </div>
   </div>
@@ -70,8 +70,9 @@ export default {
     }
   },
   mounted () {
-    this.setParentsHeight()
     window.addEventListener('resize', this.setParentsHeight)
+    this.setParentsHeight()
+    setTimeout(() => this.setParentsHeight(), 10)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.setParentsHeight)
@@ -100,8 +101,14 @@ export default {
     },
     setParentsHeight () {
       this.$refs.quotesContainer.forEach((container) => {
-        const containerY = container.getBoundingClientRect().y
-        const maxheight = Math.max(...Array.from(container.children).map(e => e.getBoundingClientRect().height + e.getBoundingClientRect().y - containerY + 50))
+        // const containerY = container.getBoundingClientRect()
+        const maxheight = Math.max(...Array.from(container.children)
+          .map((el) => {
+            const elBox = el.getBoundingClientRect()
+            console.log(parseFloat(el.style.marginTop))
+            return elBox.height + parseFloat(el.style.marginTop)
+          }))
+        console.log('MAX', maxheight)
         container.style.height = `${maxheight}px`
       })
     }
@@ -133,14 +140,23 @@ article{
 h2 {
   text-align: center;
 }
+.chapter{
+  position: relative;
+}
 .click-area{
+  position: absolute;
   z-index: 2000;
   display: flex;
   height: 100%;
   width: 100%;
+  top: 0px;
+  left: 0px;
   > div{
     height: 100%;
     width: 100%;
+    margin-left: 2em;
+    margin-right: 2em;
+    border-bottom: 1px solid#ffffff57;
     // background-color: #ff0000af;
   }
 }

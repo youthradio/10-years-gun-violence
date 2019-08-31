@@ -12,11 +12,6 @@
         </nuxt-link>
       </li>
     </ul>
-    <div>
-      <h2 ref="header">
-        Test
-      </h2>
-    </div>
   </div>
 </template>
 
