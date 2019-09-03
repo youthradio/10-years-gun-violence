@@ -71,12 +71,7 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('resize', this.setParentsHeight)
-    this.setParentsHeight()
-    setTimeout(() => this.setParentsHeight(), 10)
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.setParentsHeight)
+
   },
   methods: {
     playNext (dir, chapterID) {
@@ -100,19 +95,6 @@ export default {
     },
     getQuoteIndex (chapterID, ind) {
       return ind + (chapterID > 0 ? this.storiesChapters[chapterID - 1].length : 0)
-    },
-    setParentsHeight () {
-      this.$refs.quotesContainer.forEach((container) => {
-        // const containerY = container.getBoundingClientRect()
-        const maxheight = Math.max(...Array.from(container.children)
-          .map((el) => {
-            const elBox = el.getBoundingClientRect()
-            console.log(parseFloat(el.style.marginTop))
-            return elBox.height + parseFloat(el.style.marginTop)
-          }))
-        console.log('MAX', maxheight)
-        container.style.height = `${maxheight}px`
-      })
     }
   }
 }
@@ -131,6 +113,9 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
+  // align-items: center;
+  height: 100%;
+
 }
 article{
   max-width: 40em;
@@ -144,6 +129,7 @@ h2 {
 }
 .chapter{
   position: relative;
+  height: 100vh;
 }
 .click-area{
   position: absolute;

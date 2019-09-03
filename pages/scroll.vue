@@ -102,22 +102,14 @@ export default {
       storiesChapters
     }
   },
-  updated () {
-    this.$nextTick(() => {
-      console.log('TTT')
-      this.setParentsHeight()
-    })
-  },
   mounted () {
     Howler.autoUnlock = true
     Howler.volume(0.5)
-    window.addEventListener('resize', this.setParentsHeight)
     this.audioContext = Howler.ctx
     this.controller = new this.$ScrollMagic.Controller()
-    // this.$nextTick(() => {
-    this.setParentsHeight()
-    this.createScenes()
-    // })
+    this.$nextTick(() => {
+      this.createScenes()
+    })
     const muteObserver = new IntersectionObserver((entries, observer) => {
       const entry = entries.pop()
       // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
@@ -140,9 +132,6 @@ export default {
       })
     }, false)
   },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.setParentsHeight)
-  },
   methods: {
     mutedEvent (state) {
       Howler.mute(state)
@@ -161,24 +150,13 @@ export default {
     getQuoteIndex (chapterID, ind) {
       return ind + (chapterID > 0 ? this.storiesChapters[chapterID - 1].length : 0)
     },
-    setParentsHeight () {
-      this.$refs.quotesContainer.forEach((container) => {
-        const containerY = container.getBoundingClientRect().top
-        const maxheight = Math.max(...Array.from(container.children)
-          .map((el) => {
-            const elBox = el.getBoundingClientRect()
-            return elBox.y + elBox.height + parseFloat(el.style.marginTop) - containerY
-          }))
-        container.style.height = `${maxheight}px`
-      })
-    },
     createScenes () {
       this.$refs.chapters.forEach((chapterRef, chapterID) => {
-        const elHeight = chapterRef.getBoundingClientRect().height
+        // const elHeight = chapterRef.getBoundingClientRect().height
         const scene = new this.$ScrollMagic.Scene({
-          // triggerHook: 'onEnter',
-          offset: elHeight,
-          duration: 2000
+          triggerHook: 'onLeave',
+          // offset: elHeight,
+          duration: 3000
         })
         scene.triggerElement(chapterRef)
           .setPin(chapterRef)
@@ -225,6 +203,7 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
+  height: 90vh;
   // align-items: center;
 }
 .mute-button {
@@ -243,8 +222,10 @@ article {
   margin: auto;
   // margin-bottom: 1em;
 }
-// .container{
-// }
+.chapter {
+  position: relative;
+  height: 100vh;
+}
 h2 {
   text-align: center;
   margin-bottom: 3rem;

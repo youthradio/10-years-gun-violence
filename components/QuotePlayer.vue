@@ -42,10 +42,10 @@ export default {
       return this.quoteData.isActive
     },
     randomPos () {
-      const w = this.innerWidth > 500 ? 100 : 10
+      const w = this.innerWidth > 500 ? 10 : 0
       return {
-        marginTop: `${Math.random() * w}px`,
-        marginLeft: `${-2 * (Math.random() - 0.5) * w}px`
+        marginTop: `${Math.random() * 30}%`,
+        marginLeft: `${-2 * (Math.random() - 0.5) * w}%`
       }
     },
     startTime () {
