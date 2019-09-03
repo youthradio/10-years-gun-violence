@@ -44,6 +44,7 @@ export default {
   data () {
     return {
       current: {},
+      lastChapter: -1,
       controller: null
     }
   },
@@ -84,8 +85,8 @@ export default {
       }
       // console.log(dir, chapterID)
       const quotesLenght = this.storiesChapters[chapterID].length - 1
-      if (this.storiesChapters[chapterID].stories[this.current[chapterID]]) {
-        this.storiesChapters[chapterID].stories[this.current[chapterID]].isActive = false
+      if (this.storiesChapters[this.lastChapter]) {
+        this.storiesChapters[this.lastChapter].stories[this.current[this.lastChapter]].isActive = false
       }
       if (dir > 0) {
         this.current[chapterID]++
@@ -95,6 +96,7 @@ export default {
         this.current[chapterID] = this.current[chapterID] < 0 ? quotesLenght : this.current[chapterID]
       }
       this.storiesChapters[chapterID].stories[this.current[chapterID]].isActive = true
+      this.lastChapter = chapterID
     },
     getQuoteIndex (chapterID, ind) {
       return ind + (chapterID > 0 ? this.storiesChapters[chapterID - 1].length : 0)
