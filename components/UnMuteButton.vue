@@ -88,7 +88,8 @@ export default {
 }
 .mute-text{
   margin-right: 1rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
+  font-weight: 800;
 }
 .bt-box{
   display: flex;

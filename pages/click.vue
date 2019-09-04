@@ -5,8 +5,17 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
       </p>
     </article>
-    <div class="mute-button">
-      <UnMuteButton :audio-context="audioContext" @mutedEvent="mutedEvent" />
+    <article class="center">
+      <p>
+        Click or Tap to play Audio commentaries
+      </p>
+    </article>
+    <div ref="mutecontainer" class="mute-button">
+      <div ref="topsentinel" class="sticky_sentinel--top" />
+      <UnMuteButton
+        :audio-context="audioContext"
+        @mutedEvent="mutedEvent"
+      />
     </div>
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
@@ -22,8 +31,10 @@
         />
       </div>
       <div class="click-area">
-        <div @click="playNext(-1, chapterID)" />
-        <div @click="playNext(+1, chapterID)" />
+        <div class="relative" @click="playNext(-1, chapterID)" />
+        <div class="relative" @click="playNext(+1, chapterID)">
+          <span v-if="lastChapter === -1" class="click-anima" />
+        </div>
       </div>
     </div>
   </div>
@@ -32,6 +43,7 @@
 <script>
 import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
+import { Howler } from 'howler'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 import UnMuteButton from '~/components/UnMuteButton.vue'
 
@@ -45,7 +57,9 @@ export default {
     return {
       current: {},
       lastChapter: -1,
-      controller: null
+      controller: null,
+      audioContext: null
+
     }
   },
   computed: {
@@ -71,9 +85,24 @@ export default {
     }
   },
   mounted () {
-
+    Howler.autoUnlock = true
+    Howler.volume(0.5)
+    this.audioContext = Howler.ctx
+    const muteObserver = new IntersectionObserver((entries, observer) => {
+      const entry = entries.pop()
+      // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
+      // this.$refs.topsentinel.textContent = `${(entry.intersectionRatio * 100).toFixed(0)}% visible`
+      this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
+    }, {
+      threshold: Array.from({ length: 51 }, (d, i) => i / 50)
+    })
+    muteObserver.observe(this.$refs.topsentinel)
   },
   methods: {
+    mutedEvent (state) {
+      Howler.mute(state)
+      // this.$Howler._muted
+    },
     playNext (dir, chapterID) {
       if (!this.current.hasOwnProperty(chapterID)) {
         this.current[chapterID] = 0
@@ -103,7 +132,7 @@ export default {
 <style lang="scss" scoped>
 .mute-button{
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   position: sticky;
   right: 0px;
   top: 0px;
@@ -115,7 +144,6 @@ export default {
   justify-content: center;
   // align-items: center;
   height: 100%;
-
 }
 article{
   max-width: 40em;
@@ -144,8 +172,46 @@ h2 {
     width: 100%;
     margin-left: 2em;
     margin-right: 2em;
-    border-bottom: 1px solid#ffffff57;
-    // background-color: #ff0000af;
   }
+}
+.relative {
+  position: relative;
+}
+.click-anima {
+  z-index: -100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  // margin: 100px auto;
+  // background-color: #333;
+  background-color: #fff;
+  border-radius: 100%;
+  animation: scaleout 1s infinite ease-in-out;
+}
+@keyframes scaleout {
+  0% {
+    transform: translate(-20px, -20px) scale(0);
+  }
+  100% {
+    transform: translate(-20px, -20px) scale(1.2);
+    opacity: 0.2;
+  }
+}
+.sticky_sentinel--top{
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: red;
+  visibility: hidden;
+  height: 40px;
+  bottom: 100%;
+}
+.flex-end {
+  justify-content: flex-end;
+}
+.center{
+  text-align: center;
 }
 </style>
