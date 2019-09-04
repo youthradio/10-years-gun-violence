@@ -5,6 +5,11 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
       </p>
     </article>
+    <article class="center">
+      <p>
+        Audio commentaries auto-play as you scroll down
+      </p>
+    </article>
     <div ref="mutecontainer" class="mute-button">
       <div ref="topsentinel" class="sticky_sentinel--top" />
       <div ref="progressbar" class="progress" />
@@ -65,28 +70,7 @@ export default {
     },
     totalChapters () {
       return this.storiesChapters.length
-    },
-    globalMutedState () {
-      return Howler._muted
     }
-  },
-  watched: {
-    globalMutedState () {
-      console.log(this.globalMutedState)
-    }
-    // current: {
-    //   handler (newVal, oldVal) {
-    //     console.log(this.scrollState, newVal.chapter, newVal.quote, oldVal.chapter, oldVal.quote)
-    //     if (this.scrollState === 'FORWARD') {
-    //       const chapterData = this.storiesChapters[newVal.chapter]
-    //       chapterData.stories[newVal.quote].isActive = true
-    //     } else if (this.scrollState === 'REVERSE') {
-    //       const chapterData = this.storiesChapters[oldVal.chapter]
-    //       chapterData.stories[oldVal.quote].isActive = false
-    //     }
-    //   },
-    //   deep: true
-    // }
   },
   async asyncData (ctx) {
     // const slug = await ctx.params.slug
@@ -252,5 +236,8 @@ h2 {
 }
 .visibility {
   visibility: visible;
+}
+.center{
+  text-align: center;
 }
 </style>

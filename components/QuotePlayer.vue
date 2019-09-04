@@ -157,6 +157,9 @@ blockquote {
   &:before {
     content: "\201C";
     font-size: 2rem;
+    vertical-align: bottom;
+    // position: absolute;
+    // left: 0px;
     /* margin-right: 4px; */
     /* margin-left: -8px; */
   }
@@ -164,6 +167,9 @@ blockquote {
   &:after {
     content: "\201D";
     font-size: 2rem;
+    vertical-align: bottom;
+    // position: absolute;
+    // right: 0px;
     /* margin-left: 4px; */
     /* margin-right: -8px; */
   }
