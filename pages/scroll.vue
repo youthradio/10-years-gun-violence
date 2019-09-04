@@ -22,7 +22,7 @@
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
       ref="chapters"
-      class="chapter"
+      :class="['chapter', `back-chapter-${chapterID}`]"
     >
       <h2> {{ chapterRow.chapter }}</h2>
       <div
@@ -31,6 +31,7 @@
       >
         <QuotePlayer
           v-for="(quote, ind) in chapterRow.stories"
+
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
           :quote-data="quote"
         />
@@ -183,6 +184,15 @@ export default {
 <style lang="scss" scoped>
 @import '~@/css/vars';
 
+.back-chapter-0{
+  // background-color: #131313 ;
+}
+.back-chapter-1{
+  // background-color: #333333;
+}
+.back-chapter-2{
+  // background-color: #3F3F3F;
+}
 .quotes-container {
   position: relative;
   display: flex;
@@ -212,6 +222,8 @@ article {
 }
 h2 {
   text-align: center;
+  margin-top: 0;
+  padding-top: 3rem;
   margin-bottom: 3rem;
 }
 .sticky_sentinel--top{

@@ -11,8 +11,11 @@
         {{ quoteData.Quote }}
       </blockquote>
       <h4>
-        {{ quoteData.Title }} {{ quoteData.Year }}
+        {{ quoteData.Speaker_Name }}
       </h4>
+      <h5>
+        {{ quoteData.Title }}, {{ quoteData.Year }}
+      </h5>
     </div>
   </div>
 </template>
@@ -65,8 +68,8 @@ export default {
       }
       return {
         opacity: '0.99',
-        transform: `scale(1)`,
-        textShadow: '0px 0px 20px white'
+        transform: `scale(1)`
+        // textShadow: '0px 0px 20px darkgray'
       }
     },
     fileName () {
@@ -147,12 +150,26 @@ export default {
   transition-timing-function: ease-in-out;
   transform-origin: 50% 50%;
 }
-h4 {
-  margin: 2em;
+h4, h5 {
+  padding: 0px;
+  margin: 0em;
+  margin-left: 1rem;
+}
+h4:before {
+    content: "—";
+    // font-size: 2rem;
+    // vertical-align: bottom;
+    // position: absolute;
+    // left: 0px;
+    /* margin-right: 4px; */
+    /* margin-left: -8px; */
 }
 blockquote {
   font-weight: 700;
-  margin: 1em;
+  margin-left: 1rem;
+  line-height: 1.8rem;
+  margin-bottom: 0.5rem;
+  // line-height: 1rem;
 
   &:before {
     content: "\201C";
@@ -168,7 +185,7 @@ blockquote {
     content: "\201D";
     font-size: 2rem;
     vertical-align: bottom;
-    // position: absolute;
+    position: absolute;
     // right: 0px;
     /* margin-left: 4px; */
     /* margin-right: -8px; */
