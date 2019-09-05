@@ -11,10 +11,10 @@
         {{ quoteData.Quote }}
       </blockquote>
       <h4>
-        {{ quoteData.Speaker_Name }}
+        {{ quoteData.Speaker_Name }}, {{ quoteData.Year }}
       </h4>
       <h5>
-        {{ quoteData.Title }}, {{ quoteData.Year }}
+        {{ quoteData.Title }}
       </h5>
     </div>
   </div>
