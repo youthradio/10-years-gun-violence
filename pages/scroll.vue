@@ -1,5 +1,10 @@
 <template>
   <div ref="container" class="container">
+    <header>
+      <h2>
+        Coming of Age With Gun Violence
+      </h2>
+    </header>
     <article>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
@@ -140,8 +145,7 @@ export default {
         // const elHeight = chapterRef.getBoundingClientRect().height
         const scene = new this.$ScrollMagic.Scene({
           triggerHook: 'onLeave',
-          // offset: elHeight,
-          duration: 3000
+          duration: '300%'
         })
         scene.triggerElement(chapterRef)
           .setPin(chapterRef)
@@ -150,7 +154,7 @@ export default {
       })
     },
     sceneEvent ({ progress, scrollDirection, state }, chapterID) {
-      let newprog = (progress - 0.05) / (0.8 - 0.05)
+      let newprog = (progress - 0.00) / (0.8 - 0.00)
       newprog = Math.max(Math.min(newprog, 1), 0)
       // keep track of last state
       this.current.lastQuote = this.current.quote
