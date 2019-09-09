@@ -1,5 +1,6 @@
 <template>
   <div ref="container" class="container">
+    <MenuHeader />
     <header>
       <h2>
         Coming of Age With Gun Violence
@@ -51,12 +52,14 @@ import { group } from 'd3-array'
 import { Howler } from 'howler'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 import UnMuteButton from '~/components/UnMuteButton.vue'
+import MenuHeader from '~/components/MenuHeader.vue'
 
 const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
     QuotePlayer,
-    UnMuteButton
+    UnMuteButton,
+    MenuHeader
   },
   data () {
     return {
@@ -187,6 +190,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/css/vars';
+@import '~@/css/base';
 
 .back-chapter-0{
   // background-color: #131313 ;
@@ -210,7 +214,7 @@ export default {
   position: sticky;
   right: 0px;
   top: 0px;
-  z-index: 1000;
+  z-index: 10;
 }
 .flex-end {
   justify-content: flex-end;

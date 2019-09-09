@@ -98,5 +98,6 @@ export default {
   border: 0;
   background-color: lighten($color: $dark, $amount: 20%);
   border-radius: 1px;
+  cursor: pointer;
 }
 </style>>
