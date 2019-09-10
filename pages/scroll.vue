@@ -12,22 +12,27 @@
     <article>
       <p>
         Listening back to ten years of youth stories on gun violence, one major change stands out.
-        The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” — and that’s sobering.
-        With the U.S. now averaging more than <a target="_blank" href="https://www.gunviolencearchive.org/">one mass shooting per day</a>, we now expect the vigils, the “thoughts and prayers” tweets,
-        high school students mourning their classmates and planning escape routes.
+        The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” —
+        and that’s sobering. With the U.S. averaging more than one mass shooting per day this year, we’ve come to expect the vigils,
+        the “thoughts and prayers” tweets, high school students mourning their classmates and planning escape routes.
       </p>
+
       <p>
-        Another repeated pattern: each time a mass shooting happens, we turn our backs on the other forms of gun violence that shape our day-to-day lives.
-        [Line + stat on street violence in urban areas]. [Line + stat on police killings of black and brown young people who are unarmed].
+        Another repeated pattern: each time a mass shooting happens, we turn our backs on the
+        other forms of gun violence that shape our day-to-day lives. U.S. cities including St. Louis,
+        Chicago and Indianapolis are becoming safer and more dangerous at the same time, as gun deaths concentrate in
+        specific neighborhoods that are already economically isolated. About one in every 1,000 black men can expect to be killed by
+        cops, according to a study from the National Academy of Sciences.
       </p>
+
       <p>
-        When you listen to this decade of youth stories, resist the instinct to simplify.
-        Only when we contend with the full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
+        When you listen to this decade of youth stories, resist the instinct to simplify. Only when we contend with the
+        full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
       </p>
     </article>
     <article class="center">
       <p>
-        Audio commentaries auto-play as you scroll down
+        Scroll to hear voices
       </p>
     </article>
     <div
@@ -54,6 +59,11 @@
       :class="['chapter', `back-chapter-${chapterID}`]"
     >
       <h2> {{ chapterRow.chapter }}</h2>
+      <main>
+        <p>
+          With lockdowns, drills, scares and actual shootings a new normal in schools, students keep an eye out for exits and wonder if today’s the day a classmate will pull out a gun.
+        </p>
+      </main>
       <div
         ref="quotesContainer"
         class="quotes-container"
@@ -241,11 +251,16 @@ export default {
 .flex-end {
   justify-content: flex-end;
 }
-article {
-  max-width: 40em;
-  margin: auto;
-  // margin-bottom: 1em;
-}
+// article {
+//   max-width: 40em;
+//   margin: auto;
+//   // margin-bottom: 1em;
+// }
+// main {
+//   max-width: 40em;
+//   margin: auto;
+//   // margin-bottom: 1em;
+// }
 .chapter {
   position: relative;
   height: 100vh;
