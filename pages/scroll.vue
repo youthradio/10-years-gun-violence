@@ -1,5 +1,8 @@
 <template>
-  <div ref="container" class="container">
+  <div
+    ref="container"
+    class="container"
+  >
     <MenuHeader />
     <header>
       <h2>
@@ -8,7 +11,18 @@
     </header>
     <article>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet porttitor risus. Ut sit amet diam facilisis, posuere urna eget, lobortis justo. Sed blandit, nisi rhoncus semper dapibus, nibh est laoreet neque, in porta diam dolor in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas arcu augue, viverra vitae varius vel, pulvinar et sapien. Pellentesque in molestie ex. Donec semper ullamcorper elit, et mattis ex pulvinar et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a massa diam. Curabitur scelerisque vestibulum sapien eget placerat. Nunc consectetur, eros quis tincidunt placerat, leo tortor porta urna, ut tempor quam lectus sit amet dolor. Integer arcu odio, aliquet nec magna et, hendrerit hendrerit sem.
+        Listening back to ten years of youth stories on gun violence, one major change stands out.
+        The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” — and that’s sobering.
+        With the U.S. now averaging more than <a target="_blank" href="https://www.gunviolencearchive.org/">one mass shooting per day</a>, we now expect the vigils, the “thoughts and prayers” tweets,
+        high school students mourning their classmates and planning escape routes.
+      </p>
+      <p>
+        Another repeated pattern: each time a mass shooting happens, we turn our backs on the other forms of gun violence that shape our day-to-day lives.
+        [Line + stat on street violence in urban areas]. [Line + stat on police killings of black and brown young people who are unarmed].
+      </p>
+      <p>
+        When you listen to this decade of youth stories, resist the instinct to simplify.
+        Only when we contend with the full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
       </p>
     </article>
     <article class="center">
@@ -16,9 +30,18 @@
         Audio commentaries auto-play as you scroll down
       </p>
     </article>
-    <div ref="mutecontainer" class="mute-button">
-      <div ref="topsentinel" class="sticky_sentinel--top" />
-      <div ref="progressbar" class="progress" />
+    <div
+      ref="mutecontainer"
+      class="mute-button"
+    >
+      <div
+        ref="topsentinel"
+        class="sticky_sentinel--top"
+      />
+      <div
+        ref="progressbar"
+        class="progress"
+      />
       <UnMuteButton
         :audio-context="audioContext"
         @mutedEvent="mutedEvent"
@@ -37,7 +60,6 @@
       >
         <QuotePlayer
           v-for="(quote, ind) in chapterRow.stories"
-
           :key="`quote-${getQuoteIndex(chapterID, ind)}`"
           :quote-data="quote"
         />
@@ -189,16 +211,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/css/vars';
-@import '~@/css/base';
+@import "~@/css/vars";
+@import "~@/css/base";
 
-.back-chapter-0{
+.back-chapter-0 {
   // background-color: #131313 ;
 }
-.back-chapter-1{
+.back-chapter-1 {
   // background-color: #333333;
 }
-.back-chapter-2{
+.back-chapter-2 {
   // background-color: #3F3F3F;
 }
 .quotes-container {
@@ -234,7 +256,7 @@ h2 {
   padding-top: 3rem;
   margin-bottom: 3rem;
 }
-.sticky_sentinel--top{
+.sticky_sentinel--top {
   position: absolute;
   left: 0;
   right: 0;
@@ -243,21 +265,20 @@ h2 {
   height: 40px;
   bottom: 100%;
 }
-.progress{
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 10px;
-    background-color: lighten($color: $dark, $amount: 20%);
-    width: 0%;
-    z-index: -1;
-    visibility: hidden;
-
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-color: lighten($color: $dark, $amount: 20%);
+  width: 0%;
+  z-index: -1;
+  visibility: hidden;
 }
 .visibility {
   visibility: visible;
 }
-.center{
+.center {
   text-align: center;
 }
 </style>
