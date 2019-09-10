@@ -3,6 +3,10 @@
 html,body{
   margin: 0px;
 }
+.img-fluid{
+  width: 100%;
+  height: auto;
+}
 html {
     /* Change default typefaces here */
     font-family: $baseFont;
@@ -62,13 +66,13 @@ html {
     box-sizing: inherit;
   }
   article {
-    max-width: 32rem;
+    max-width: 40rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     margin: auto;
   }
   main {
-    max-width: 32rem;
+    max-width: 40rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     margin: auto;

@@ -30,23 +30,25 @@
         full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
       </p>
     </article>
-    <article class="center">
-      <p>
-        Scroll to hear voices
-      </p>
-    </article>
     <div
       ref="mutecontainer"
-      class="mute-button"
+      :class="['mute-button',stuckState ? 'flex-end' : '']"
     >
       <div
         ref="topsentinel"
         class="sticky_sentinel--top"
       />
       <div
+        v-if="stuckState"
         ref="progressbar"
         class="progress"
       />
+      <span
+        v-if="!stuckState"
+        class="scroll-text"
+      >
+        Scroll to hear voices
+      </span>
       <UnMuteButton
         :audio-context="audioContext"
         @mutedEvent="mutedEvent"
@@ -55,33 +57,37 @@
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
-      ref="chapters"
-      :class="['chapter', `back-chapter-${chapterID}`]"
+      :class="`back-chapter-${chapterID}`"
     >
-      <h2> {{ chapterRow.chapter }}</h2>
       <main>
         <p>
           With lockdowns, drills, scares and actual shootings a new normal in schools, students keep an eye out for exits and wonder if today’s the day a classmate will pull out a gun.
         </p>
+        <img class="img-fluid" src="~assets/images/cap1.jpg">
       </main>
-      <div
-        ref="quotesContainer"
-        class="quotes-container"
-      >
-        <QuotePlayer
-          v-for="(quote, ind) in chapterRow.stories"
-          :key="`quote-${getQuoteIndex(chapterID, ind)}`"
-          :quote-data="quote"
-        />
+      <div ref="chapters" class="chapter">
+        <h2> {{ chapterRow.chapter }}</h2>
+        <div
+          ref="quotesContainer"
+          class="quotes-container"
+        >
+          <QuotePlayer
+            v-for="(quote, ind) in chapterRow.stories"
+            :key="`quote-${getQuoteIndex(chapterID, ind)}`"
+            :quote-data="quote"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
 import { csvParse } from 'd3-dsv'
 import { group } from 'd3-array'
 import { Howler } from 'howler'
+import CommonUtils from '../mixins/CommonUtils'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 import UnMuteButton from '~/components/UnMuteButton.vue'
 import MenuHeader from '~/components/MenuHeader.vue'
@@ -93,6 +99,9 @@ export default {
     UnMuteButton,
     MenuHeader
   },
+  mixins: [
+    CommonUtils
+  ],
   data () {
     return {
       current: {
@@ -102,7 +111,8 @@ export default {
       scrollState: null,
       controller: null,
       scenes: [],
-      audioContext: null
+      audioContext: null,
+      stuckState: false
     }
   },
   computed: {
@@ -137,27 +147,25 @@ export default {
     })
     const muteObserver = new IntersectionObserver((entries, observer) => {
       const entry = entries.pop()
+      this.stuckState = entry.intersectionRatio <= 0
       // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
       // this.$refs.topsentinel.textContent = `${(entry.intersectionRatio * 100).toFixed(0)}% visible`
-      this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
-      this.$refs.progressbar.classList.toggle('visibility', entry.intersectionRatio <= 0)
+      // this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
+      // this.$refs.progressbar.classList.toggle('visibility', entry.intersectionRatio <= 0)
+      // this.$refs.scrolltext.classList.toggle('visibility', entry.intersectionRatio <= 0)
     }, {
       threshold: Array.from({ length: 51 }, (d, i) => i / 50)
     })
     muteObserver.observe(this.$refs.topsentinel)
-
-    let timeout
-    window.addEventListener('scroll', (event) => {
-      if (timeout) {
-        window.cancelAnimationFrame(timeout)
-      }
-      timeout = window.requestAnimationFrame(() => {
-        const p = window.scrollY / (document.querySelector('html').getBoundingClientRect().height - window.innerHeight)
-        this.$refs.progressbar.style.width = `${p * 100}%`
-      })
-    }, false)
+    window.addEventListener('scroll', event => this.debouceEvent(event, this.onScroll), false)
   },
   methods: {
+    onScroll () {
+      const p = window.scrollY / (document.querySelector('html').getBoundingClientRect().height - window.innerHeight)
+      if (this.stuckState) {
+        this.$refs.progressbar.style.width = `${p * 100}%`
+      }
+    },
     mutedEvent (state) {
       Howler.mute(state)
       // this.$Howler._muted
@@ -243,24 +251,24 @@ export default {
 .mute-button {
   display: flex;
   justify-content: center;
+  align-items: center;
   position: sticky;
   right: 0px;
   top: 0px;
   z-index: 10;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+}
+.scroll-text{
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 .flex-end {
   justify-content: flex-end;
 }
-// article {
-//   max-width: 40em;
-//   margin: auto;
-//   // margin-bottom: 1em;
-// }
-// main {
-//   max-width: 40em;
-//   margin: auto;
-//   // margin-bottom: 1em;
-// }
 .chapter {
   position: relative;
   height: 100vh;
@@ -284,14 +292,11 @@ h2 {
   position: absolute;
   left: 0;
   right: 0;
+  top: 0;
   height: 10px;
   background-color: lighten($color: $dark, $amount: 20%);
   width: 0%;
   z-index: -1;
-  visibility: hidden;
-}
-.visibility {
-  visibility: visible;
 }
 .center {
   text-align: center;
