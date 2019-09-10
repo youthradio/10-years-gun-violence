@@ -57,20 +57,18 @@
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
-      :class="`back-chapter-${chapterID}`"
     >
-      <main>
-        <p>
-          With lockdowns, drills, scares and actual shootings a new normal in schools, students keep an eye out for exits and wonder if today’s the day a classmate will pull out a gun.
-        </p>
-        <img class="img-fluid" src="~assets/images/cap1.jpg">
-      </main>
-      <div ref="chapters" class="chapter">
+      <div ref="chapters" :class="['chapter', `back-chapter-${chapterID}`]">
         <h2> {{ chapterRow.chapter }}</h2>
         <div
           ref="quotesContainer"
           class="quotes-container"
         >
+          <main>
+            <p>
+              With lockdowns, drills, scares and actual shootings a new normal in schools, students keep an eye out for exits and wonder if today’s the day a classmate will pull out a gun.
+            </p>
+          </main>
           <QuotePlayer
             v-for="(quote, ind) in chapterRow.stories"
             :key="`quote-${getQuoteIndex(chapterID, ind)}`"
@@ -148,11 +146,6 @@ export default {
     const muteObserver = new IntersectionObserver((entries, observer) => {
       const entry = entries.pop()
       this.stuckState = entry.intersectionRatio <= 0
-      // this.$refs.topsentinel.backgroundColor = `hsl(0, 100%, ${entry.intersectionRatio * 100}%)`
-      // this.$refs.topsentinel.textContent = `${(entry.intersectionRatio * 100).toFixed(0)}% visible`
-      // this.$refs.mutecontainer.classList.toggle('flex-end', entry.intersectionRatio <= 0)
-      // this.$refs.progressbar.classList.toggle('visibility', entry.intersectionRatio <= 0)
-      // this.$refs.scrolltext.classList.toggle('visibility', entry.intersectionRatio <= 0)
     }, {
       threshold: Array.from({ length: 51 }, (d, i) => i / 50)
     })
@@ -193,11 +186,11 @@ export default {
         scene.triggerElement(chapterRef)
           .setPin(chapterRef)
           .addTo(this.controller)
-          .on('progress', event => this.sceneEvent(event, chapterID))
+          .on('progress', event => this.sceneEvent(event, chapterID, chapterRef))
       })
     },
-    sceneEvent ({ progress, scrollDirection, state }, chapterID) {
-      let newprog = (progress - 0.00) / (0.8 - 0.00)
+    sceneEvent ({ progress, scrollDirection, state }, chapterID, chapterRef) {
+      let newprog = progress / 0.7
       newprog = Math.max(Math.min(newprog, 1), 0)
       // keep track of last state
       this.current.lastQuote = this.current.quote
@@ -216,12 +209,15 @@ export default {
           lastChapterData.stories[this.current.lastQuote].isActive = false
         }
       }
-      if (progress >= 0.05 && progress <= 0.8) {
+      if (progress <= 0.7) {
+        chapterRef.style.opacity = '1'
         this.current.chapter = chapterID
         const chapterData = this.storiesChapters[chapterID]
         this.current.quote = ~~(newprog * (chapterData.stories.length - 1))
-
         chapterData.stories[this.current.quote].isActive = true
+      }
+      if (progress >= 1) {
+        chapterRef.style.opacity = '0'
       }
     }
   }
@@ -234,9 +230,18 @@ export default {
 
 .back-chapter-0 {
   // background-color: #131313 ;
+  background-image: url('~assets/images/back.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 .back-chapter-1 {
   // background-color: #333333;
+    // background-color: #131313 ;
+  background-image: url('~assets/images/back.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 .back-chapter-2 {
   // background-color: #3F3F3F;
@@ -245,7 +250,7 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
-  height: 90vh;
+  // height: 90vh;
   // align-items: center;
 }
 .mute-button {
@@ -272,6 +277,7 @@ export default {
 .chapter {
   position: relative;
   height: 100vh;
+  transition: opacity 0.3s ease-out;
 }
 h2 {
   text-align: center;
