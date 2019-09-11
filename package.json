@@ -5,7 +5,7 @@
   "author": "Radames Ajna",
   "private": true,
   "scripts": {
-    "dev": "nuxt --hostname $LOCALIP",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate && rm -rf _site/* && cp -R dist/ _site/",

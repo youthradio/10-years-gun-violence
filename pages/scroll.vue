@@ -15,16 +15,20 @@
         <p>
           Listening back to ten years of youth stories on gun violence, one major change stands out.
           The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” —
-          and that’s sobering. With the U.S. averaging more than one mass shooting per day this year, we’ve come to expect the vigils,
+          and that’s sobering. With the U.S. averaging more than
+          <a href="https://www.gunviolencearchive.org/" target="_blank">one mass shooting per day</a>
+          this year, we’ve come to expect the vigils,
           the “thoughts and prayers” tweets, high school students mourning their classmates and planning escape routes.
         </p>
 
         <p>
           Another repeated pattern: each time a mass shooting happens, we turn our backs on the
           other forms of gun violence that shape our day-to-day lives. U.S. cities including St. Louis,
-          Chicago and Indianapolis are becoming safer and more dangerous at the same time, as gun deaths concentrate in
+          Chicago and Indianapolis are becoming
+          <a href="https://www.apnews.com/6f885974867f49c886f7afcf5a0aa7c5" target="_blank">safer and more dangerous</a> at the same time, as gun deaths concentrate in
           specific neighborhoods that are already economically isolated. About one in every 1,000 black men can expect to be killed by
-          cops, according to a study from the National Academy of Sciences.
+          cops, according to a
+          <a href="https://www.pnas.org/content/116/34/16793" target="_blank">study</a> from the National Academy of Sciences.
         </p>
 
         <p>
@@ -98,6 +102,9 @@
             Credits
           </h3>
         </header>
+        <p>
+          <strong>Interactive creators:</strong> Radamés Ajna, Jen Tribbet, Marjerrie Masicat, Devin Glover, Antonio Baca, Lissa Soep
+        </p>
       </article>
     </div>
   </div>
