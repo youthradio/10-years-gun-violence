@@ -8,7 +8,7 @@ export default {
   ** Headers of the page
   */
   router: {
-    base: '/interactive/gun-violence-archive/'
+    base: '/interactive/10-years-gun-violence'
   },
   head: {
     title: process.env.npm_package_name || '',
