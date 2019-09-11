@@ -73,23 +73,26 @@
       </div>
     </div>
 
-    <div class="full-height">
+    <div class="full-height end">
       <header>
         <h3>
           The Stories
         </h3>
       </header>
-      <article>
-        <ul>
-          <li
-            v-for="story in allStories"
-            :key="story"
+      <ul>
+        <li
+          v-for="story in allStories"
+          :key="story[0]"
+        >
+          <a
+            :href="story[1].link"
+            target="_blank"
           >
-            <a :href="story.Source">
-              {{ story.Title }}, {{ story.Year }}
-            </a>
-          </li>
-        </ul>
+            {{ story[1].year }} - {{ story[0] }}
+          </a>
+        </li>
+      </ul>
+      <article>
         <header>
           <h3>
             Credits
@@ -135,10 +138,21 @@ export default {
   },
   computed: {
     allStories () {
-      return this.storiesChapters
-        .map(e => e.stories)
-        .flat()
-        .sort((a, b) => a.Year - b.Year)
+      const list = {}
+      this.storiesChapters
+        .map((e) => {
+          e.stories.map((story) => {
+            if (!list.hasOwnProperty(story.Title)) {
+              list[story.Title] = {
+                year: story.Year,
+                link: story.Source
+              }
+            }
+          })
+        })
+
+      return Object.entries(list)
+        .sort((a, b) => a[1].year - b[1].year)
     },
     totalStories () {
       return this.storiesChapters.reduce((acc, e) => acc + e.length, 0)
@@ -236,14 +250,11 @@ export default {
         }
       }
       if (progress <= 0.7) {
-        chapterRef.style.opacity = '1'
+        // chapterRef.style.opacity = '1'
         this.current.chapter = chapterID
         const chapterData = this.storiesChapters[chapterID]
         this.current.quote = ~~(newprog * (chapterData.stories.length - 1))
         chapterData.stories[this.current.quote].isActive = true
-      }
-      if (progress >= 1) {
-        chapterRef.style.opacity = '0'
       }
     }
   }
@@ -304,8 +315,7 @@ export default {
 }
 .fixed {
   position: fixed;
-    justify-content: flex-end;
-
+  justify-content: flex-end;
   right: 0px;
   top: 0px
 }
@@ -316,9 +326,6 @@ export default {
 }
 h2,h3 {
   text-align: center;
-  margin-top: 0;
-  padding-top: 3rem;
-  margin-bottom: 3rem;
 }
 .sticky_sentinel--top {
   position: absolute;
@@ -345,10 +352,16 @@ h2,h3 {
 .full-height{
   display: flex;
   flex-direction:column;
-  justify-content: space-around;
-  height: calc(100vh - 68px);
+  justify-content: space-between;
+  min-height: calc(100vh - 68px);
+}
+.end{
+  min-height: 100vh;
 }
 ul{
   list-style-type: none;
+  font-size: 0.8rem;
+  padding: 1rem;
+  margin:auto;
 }
 </style>
