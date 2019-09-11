@@ -75,6 +75,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '~/modules/getdata'
   ],
   /*
   ** Build configuration

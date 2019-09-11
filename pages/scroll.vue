@@ -112,15 +112,12 @@
 
 <script>
 
-import { csvParse } from 'd3-dsv'
-import { group } from 'd3-array'
 import { Howler } from 'howler'
 import CommonUtils from '../mixins/CommonUtils'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 import UnMuteButton from '~/components/UnMuteButton.vue'
 import MenuHeader from '~/components/MenuHeader.vue'
 
-const DURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRaEu4kTlAHyqAV-vIHBHIgOoJtoSzHYDZlvbs6ryP4w1YQTJDDWYGULgecXp9O-JP9fAbm3NqzgJV_/pub?output=csv'
 export default {
   components: {
     QuotePlayer,
@@ -168,18 +165,11 @@ export default {
       return this.storiesChapters.length
     }
   },
-  async asyncData (ctx) {
+  asyncData (ctx) {
     // const slug = await ctx.params.slug
-    const csvdata = await fetch(DURL)
-      .then(d => d.text())
-      .then(d => csvParse(d))
-      .then(d => d.filter(e => e.File_Name !== 'noaudio'))
-      .then(d => d.map(e => Object.assign({ isActive: false }, e)))
-
-    const storiesChapters = Array.from(group(csvdata, e => e.Chapter),
-      ([key, value]) => ({ chapter: key, stories: value, length: value.length }))
+    const data = require(`~/data/data.json`)
     return {
-      storiesChapters
+      storiesChapters: data.content
     }
   },
   mounted () {
