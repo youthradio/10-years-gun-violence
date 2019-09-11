@@ -4,55 +4,55 @@
     class="container"
   >
     <MenuHeader />
-    <header>
-      <h2>
-        Coming of Age With Gun Violence
-      </h2>
-    </header>
-    <article>
-      <p>
-        Listening back to ten years of youth stories on gun violence, one major change stands out.
-        The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” —
-        and that’s sobering. With the U.S. averaging more than one mass shooting per day this year, we’ve come to expect the vigils,
-        the “thoughts and prayers” tweets, high school students mourning their classmates and planning escape routes.
-      </p>
 
-      <p>
-        Another repeated pattern: each time a mass shooting happens, we turn our backs on the
-        other forms of gun violence that shape our day-to-day lives. U.S. cities including St. Louis,
-        Chicago and Indianapolis are becoming safer and more dangerous at the same time, as gun deaths concentrate in
-        specific neighborhoods that are already economically isolated. About one in every 1,000 black men can expect to be killed by
-        cops, according to a study from the National Academy of Sciences.
-      </p>
+    <div ref="topcontent" class="full-height">
+      <header>
+        <h2>
+          Coming of Age With Gun Violence
+        </h2>
+      </header>
+      <article>
+        <p>
+          Listening back to ten years of youth stories on gun violence, one major change stands out.
+          The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” —
+          and that’s sobering. With the U.S. averaging more than one mass shooting per day this year, we’ve come to expect the vigils,
+          the “thoughts and prayers” tweets, high school students mourning their classmates and planning escape routes.
+        </p>
 
-      <p>
-        When you listen to this decade of youth stories, resist the instinct to simplify. Only when we contend with the
-        full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
-      </p>
-    </article>
-    <div
-      ref="mutecontainer"
-      :class="['mute-button',stuckState ? 'flex-end' : '']"
-    >
+        <p>
+          Another repeated pattern: each time a mass shooting happens, we turn our backs on the
+          other forms of gun violence that shape our day-to-day lives. U.S. cities including St. Louis,
+          Chicago and Indianapolis are becoming safer and more dangerous at the same time, as gun deaths concentrate in
+          specific neighborhoods that are already economically isolated. About one in every 1,000 black men can expect to be killed by
+          cops, according to a study from the National Academy of Sciences.
+        </p>
+
+        <p>
+          When you listen to this decade of youth stories, resist the instinct to simplify. Only when we contend with the
+          full mix of these voices can we begin to grasp what it means to come of age in the gun violence of America.
+        </p>
+      </article>
       <div
-        ref="topsentinel"
-        class="sticky_sentinel--top"
-      />
-      <div
-        v-if="stuckState"
-        ref="progressbar"
-        class="progress"
-      />
-      <span
-        v-if="!stuckState"
-        class="scroll-text"
+        class="mute-bar"
       >
-        Scroll to hear voices
-      </span>
-      <UnMuteButton
-        :audio-context="audioContext"
-        @mutedEvent="mutedEvent"
-      />
+        <div :class="['flex', stuckState? 'fixed': '']">
+          <div
+            v-if="stuckState"
+            ref="progressbar"
+            class="progress"
+          />
+          <span
+            v-if="!stuckState"
+            class="scroll-text"
+          >
+            Scroll to hear voices
+          </span>
+          <UnMuteButton
+            :audio-context="audioContext"
+            @mutedEvent="mutedEvent"
+          />
+        </div>
+      </div>
     </div>
     <div
       v-for="(chapterRow, chapterID) in storiesChapters"
@@ -64,11 +64,6 @@
           ref="quotesContainer"
           class="quotes-container"
         >
-          <main>
-            <p>
-              With lockdowns, drills, scares and actual shootings a new normal in schools, students keep an eye out for exits and wonder if today’s the day a classmate will pull out a gun.
-            </p>
-          </main>
           <QuotePlayer
             v-for="(quote, ind) in chapterRow.stories"
             :key="`quote-${getQuoteIndex(chapterID, ind)}`"
@@ -76,6 +71,31 @@
           />
         </div>
       </div>
+    </div>
+
+    <div class="full-height">
+      <header>
+        <h3>
+          The Stories
+        </h3>
+      </header>
+      <article>
+        <ul>
+          <li
+            v-for="story in allStories"
+            :key="story"
+          >
+            <a :href="story.Source">
+              {{ story.Title }}, {{ story.Year }}
+            </a>
+          </li>
+        </ul>
+        <header>
+          <h3>
+            Credits
+          </h3>
+        </header>
+      </article>
     </div>
   </div>
 </template>
@@ -114,6 +134,12 @@ export default {
     }
   },
   computed: {
+    allStories () {
+      return this.storiesChapters
+        .map(e => e.stories)
+        .flat()
+        .sort((a, b) => a.Year - b.Year)
+    },
     totalStories () {
       return this.storiesChapters.reduce((acc, e) => acc + e.length, 0)
     },
@@ -147,9 +173,9 @@ export default {
       const entry = entries.pop()
       this.stuckState = entry.intersectionRatio <= 0
     }, {
-      threshold: Array.from({ length: 51 }, (d, i) => i / 50)
+      threshold: 0
     })
-    muteObserver.observe(this.$refs.topsentinel)
+    muteObserver.observe(this.$refs.topcontent)
     window.addEventListener('scroll', event => this.debouceEvent(event, this.onScroll), false)
   },
   methods: {
@@ -230,7 +256,7 @@ export default {
 
 .back-chapter-0 {
   // background-color: #131313 ;
-  background-image: url('~assets/images/back.jpg');
+  background-image: url('~assets/images/mass-shootings.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -238,13 +264,16 @@ export default {
 .back-chapter-1 {
   // background-color: #333333;
     // background-color: #131313 ;
-  background-image: url('~assets/images/back.jpg');
-  background-repeat: no-repeat;
+  background-image: url('~assets/images/police-violence.jpg');
+    background-repeat: no-repeat;
   background-size: cover;
 
 }
 .back-chapter-2 {
   // background-color: #3F3F3F;
+   background-image: url('~assets/images/community-violence.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .quotes-container {
   position: relative;
@@ -253,17 +282,13 @@ export default {
   // height: 90vh;
   // align-items: center;
 }
-.mute-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: sticky;
+.mute-bar {
+  position: relative;
   right: 0px;
   top: 0px;
   z-index: 10;
   margin-top: 2rem;
   margin-bottom: 2rem;
-
 }
 .scroll-text{
   margin-right: 1rem;
@@ -271,15 +296,25 @@ export default {
   font-weight: 800;
   text-transform: uppercase;
 }
-.flex-end {
-  justify-content: flex-end;
+.flex{
+  display: flex;
+  width: 100%;
+    justify-content: center;
+
+}
+.fixed {
+  position: fixed;
+    justify-content: flex-end;
+
+  right: 0px;
+  top: 0px
 }
 .chapter {
   position: relative;
   height: 100vh;
   transition: opacity 0.3s ease-out;
 }
-h2 {
+h2,h3 {
   text-align: center;
   margin-top: 0;
   padding-top: 3rem;
@@ -306,5 +341,14 @@ h2 {
 }
 .center {
   text-align: center;
+}
+.full-height{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-around;
+  height: calc(100vh - 68px);
+}
+ul{
+  list-style-type: none;
 }
 </style>
