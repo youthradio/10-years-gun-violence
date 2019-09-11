@@ -102,7 +102,7 @@
             Credits
           </h3>
         </header>
-        <p>
+        <p class="credits">
           <strong>Interactive creators:</strong> Radamés Ajna, Jen Tribbet, Marjerrie Masicat, Devin Glover, Antonio Baca, Lissa Soep
         </p>
       </article>
@@ -370,5 +370,8 @@ ul{
   font-size: 0.8rem;
   padding: 1rem;
   margin:auto;
+}
+.credits{
+  font-size: 0.8rem;
 }
 </style>
