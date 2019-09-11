@@ -205,7 +205,7 @@ export default {
 
   },
   mounted () {
-    window.addEventListener('scroll', event => this.debouceEvent(event, this.onScroll), false)
+    // window.addEventListener('scroll', event => this.debouceEvent(event, this.onScroll), false)
   },
   methods: {
     onScroll () {
