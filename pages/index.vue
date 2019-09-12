@@ -117,6 +117,7 @@ import CommonUtils from '../mixins/CommonUtils'
 import QuotePlayer from '~/components/QuotePlayer.vue'
 import UnMuteButton from '~/components/UnMuteButton.vue'
 import MenuHeader from '~/components/MenuHeader.vue'
+import ROWS_DATA from '~/data/data.json'
 
 export default {
   components: {
@@ -167,9 +168,8 @@ export default {
   },
   asyncData (ctx) {
     // const slug = await ctx.params.slug
-    const data = require(`~/data/data.json`)
     return {
-      storiesChapters: data.content
+      storiesChapters: ROWS_DATA.content
     }
   },
   mounted () {
