@@ -108,7 +108,7 @@
           <strong>Interactive creators:</strong> Radamés Ajna, Jen Tribbet, Marjerrie Masicat, Devin Glover, Antonio Baca, Lissa Soep
         </p>
         <p class="credits center">
-          Coming of Age With Gun Violence is a project of <a href="https://yr.media" rel="noopener noreferrer"> YR Media </a>
+          <q>Coming of Age With Gun Violence</q> is a project of <a href="https://yr.media" rel="noopener noreferrer"> YR Media </a>
         </p>
       </article>
     </div>
