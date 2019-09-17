@@ -8,23 +8,23 @@ export default {
   ** Headers of the page
   */
   router: {
-    base: '/interactive/10-years-gun-violence'
+    base: '/10-years-gun-violence/'
   },
   head: {
     title: 'Coming of Age With Gun Violence',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
+      { hid: 'description', name: 'description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With eaqqch sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
       { property: 'og:title', content: 'Coming of Age With Gun Violence' },
       { property: 'og:site_name', content: 'Coming of Age With Gun Violence' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://yr.media/interactive/10-years-gun-violence/' },
+      { property: 'og:url', content: 'https://interactive.yr.media/10-years-gun-violence/' },
       { property: 'og:image', content: 'https://s3.amazonaws.com/media.youthradio.org/wp-content/uploads/2019/09/10222753/YR_GunViolence_feature-v2.jpg' },
       { property: 'og:description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
       { property: 'og:image:alt', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
       { property: 'fb:app_id', content: '73080818131' },
-      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:creator', content: '@itsyrmedia' },
       { name: 'twitter:site', content: '@itsyrmedia' },
       { name: 'twitter:title', content: 'Coming of Age With Gun Violence' },
