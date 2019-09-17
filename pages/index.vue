@@ -10,12 +10,13 @@
         <h2>
           Coming of Age With Gun Violence
         </h2>
+        <h3>
+          A decade of voices from Youth Radio / YR Media
+        </h3>
       </header>
       <article>
         <p>
-          Listening back to ten years of youth stories on gun violence, one major change stands out.
-          The conversation on mass shootings has shifted from “how to stop them” to “how to survive them” —
-          and that’s sobering. With the U.S. averaging more than
+          Listening back to ten years of YR Media's reporting on gun violence, one major change stands out. Our conversation on mass shootings has shifted from “how to stop them” to “how to survive them” — and that’s sobering. With the U.S. averaging more than
           <a href="https://www.gunviolencearchive.org/" target="_blank">one mass shooting per day</a>
           this year, we’ve come to expect the vigils,
           the “thoughts and prayers” tweets, high school students mourning their classmates and planning escape routes.
@@ -91,6 +92,7 @@
           <a
             :href="story[1].link"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {{ story[1].year }} - {{ story[0] }}
           </a>
@@ -104,6 +106,9 @@
         </header>
         <p class="credits">
           <strong>Interactive creators:</strong> Radamés Ajna, Jen Tribbet, Marjerrie Masicat, Devin Glover, Antonio Baca, Lissa Soep
+        </p>
+        <p class="credits center">
+          Coming of Age With Gun Violence is a project of <a href="https://yr.media" rel="noopener noreferrer"> YR Media </a>
         </p>
       </article>
     </div>
@@ -295,8 +300,8 @@ export default {
   right: 0px;
   top: 0px;
   z-index: 10;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .scroll-text{
   margin-right: 1rem;
@@ -349,7 +354,7 @@ h2,h3 {
 .full-height{
   display: flex;
   flex-direction:column;
-  justify-content: space-between;
+  // justify-content: space-between;
   min-height: calc(100vh - 68px);
 }
 .end{
