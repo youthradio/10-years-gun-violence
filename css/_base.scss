@@ -67,10 +67,11 @@ html {
   }
   article {
     max-width: 40rem;
-    padding-left: 1.5rem;
+    padding-left: calc(1.5rem + 10px);
     padding-right: 1.5rem;
     margin-left: auto;
     margin-right: auto;
+
   }
   main {
     max-width: 40rem;
