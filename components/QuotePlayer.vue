@@ -29,6 +29,11 @@ export default {
       type: Object,
       defaul: null,
       required: true
+    },
+    isVisible: {
+      type: Boolean,
+      defaul: false,
+      required: true
     }
   },
   data () {
@@ -78,6 +83,11 @@ export default {
     }
   },
   watch: {
+    isVisible () {
+      if (this.isVisible) {
+        this.sound.load()
+      }
+    },
     isActive () {
       if (this.isActive) {
         this.playSound()
@@ -95,7 +105,7 @@ export default {
     this.sound = new Howl({
       autoplay: false,
       volume: 1.0,
-      // preload: false,
+      preload: false,
       loop: false,
       src: [`audios/${this.fileName}.webm`, `audios/${this.fileName}.mp3`]
       // sprite: {

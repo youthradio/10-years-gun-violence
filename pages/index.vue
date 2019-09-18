@@ -63,7 +63,14 @@
       v-for="(chapterRow, chapterID) in storiesChapters"
       :key="`chapter-${chapterID}`"
     >
-      <div ref="chapters" :class="['chapter', `back-chapter-${chapterID}`]">
+      <div
+        ref="chapters"
+        v-observe-visibility="{
+          callback: (isVisible, e) => visibilityChanged(isVisible, e, chapterID),
+          once: true,
+        }"
+        :class="['chapter', `back-chapter-${chapterID}`, visibleChapter === chapterID ? 'visible': '']"
+      >
         <h2> {{ chapterRow.chapter }}</h2>
         <div
           ref="quotesContainer"
@@ -73,6 +80,7 @@
             v-for="(quote, ind) in chapterRow.stories"
             :key="`quote-${getQuoteIndex(chapterID, ind)}`"
             :quote-data="quote"
+            :is-visible="visibleChapter === chapterID"
           />
         </div>
       </div>
@@ -143,7 +151,8 @@ export default {
       controller: null,
       scenes: [],
       audioContext: null,
-      stuckState: false
+      stuckState: false,
+      visibleChapter: null
     }
   },
   computed: {
@@ -193,8 +202,28 @@ export default {
     })
     muteObserver.observe(this.$refs.topcontent)
     window.addEventListener('scroll', event => this.debouceEvent(event, this.onScroll), false)
+
+    // const lazyElements = this.$el.querySelectorAll('.lazy')
+
+    // const lazyBackgroundObserver = new IntersectionObserver((entries, observer) => {
+    //   entries.forEach((entry) => {
+    //     if (entry.isIntersecting) {
+    //       entry.target.classList.add('visible')
+    //       lazyBackgroundObserver.unobserve(entry.target)
+    //     }
+    //   })
+    // })
+
+    // Array.from(lazyElements).forEach((lazyBackground) => {
+    //   lazyBackgroundObserver.observe(lazyBackground)
+    // })
   },
   methods: {
+    visibilityChanged (isVisible, entry, chapterID) {
+      if (isVisible) {
+        this.visibleChapter = chapterID
+      }
+    },
     onScroll () {
       const p = window.scrollY / (document.querySelector('html').getBoundingClientRect().height - window.innerHeight)
       if (this.stuckState) {
@@ -267,14 +296,14 @@ export default {
 @import "~@/css/vars";
 @import "~@/css/base";
 
-.back-chapter-0 {
+.back-chapter-0.visible{
   // background-color: #131313 ;
   background-image: url('~assets/images/mass-shootings.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
 }
-.back-chapter-1 {
+.back-chapter-1.visible {
   // background-color: #333333;
     // background-color: #131313 ;
   background-image: url('~assets/images/police-violence.jpg');
@@ -282,7 +311,7 @@ export default {
   background-size: cover;
 
 }
-.back-chapter-2 {
+.back-chapter-2.visible {
   // background-color: #3F3F3F;
    background-image: url('~assets/images/community-violence.jpg');
   background-repeat: no-repeat;

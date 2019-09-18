@@ -61,8 +61,11 @@ export default {
     {
       src: '~plugins/ga.js',
       ssr: false
+    },
+    {
+      src: '~plugins/vue-observable.js',
+      ssr: false
     }
-
   ],
   /*
   ** Nuxt.js dev-modules
