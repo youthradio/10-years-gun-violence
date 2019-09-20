@@ -69,7 +69,7 @@
           callback: (isVisible, e) => visibilityChanged(isVisible, e, chapterID),
           once: true,
         }"
-        :class="['chapter', `back-chapter-${chapterID}`, visibleChapter === chapterID ? 'visible': '']"
+        :class="['chapter', `back-chapter-${chapterID}`, visibleChapter.includes(chapterID) ? 'visible': '']"
       >
         <h2> {{ chapterRow.chapter }}</h2>
         <div
@@ -80,7 +80,7 @@
             v-for="(quote, ind) in chapterRow.stories"
             :key="`quote-${getQuoteIndex(chapterID, ind)}`"
             :quote-data="quote"
-            :is-visible="visibleChapter === chapterID"
+            :is-visible="visibleChapter.includes(chapterID)"
           />
         </div>
       </div>
@@ -152,7 +152,7 @@ export default {
       scenes: [],
       audioContext: null,
       stuckState: false,
-      visibleChapter: null
+      visibleChapter: []
     }
   },
   computed: {
@@ -221,7 +221,7 @@ export default {
   methods: {
     visibilityChanged (isVisible, entry, chapterID) {
       if (isVisible) {
-        this.visibleChapter = chapterID
+        this.visibleChapter.push(chapterID)
       }
     },
     onScroll () {
