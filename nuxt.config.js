@@ -59,10 +59,6 @@ export default {
       ssr: false
     },
     {
-      src: '~plugins/ga.js',
-      ssr: false
-    },
-    {
       src: '~plugins/vue-observable.js',
       ssr: false
     }
@@ -78,8 +74,19 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    '~/modules/getdata'
+    '~/modules/getdata',
+    '@nuxtjs/google-gtag'
   ],
+  'google-gtag': {
+    id: 'UA-6029148-3',
+    config: {
+      anonymize_ip: true, // anonymize IP
+      send_page_view: false // might be necessary to avoid duplicated page track on page reload
+    },
+    debug: false, // enable to track in dev mode
+    disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...).
+  },
+
   /*
   ** Build configuration
   */
