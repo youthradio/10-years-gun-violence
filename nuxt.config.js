@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs'
 import dotenv from 'dotenv'
+import SOCIALDATA from './social.config'
 dotenv.config()
 
 export default {
@@ -8,36 +8,40 @@ export default {
   ** Headers of the page
   */
   router: {
-    base: '/10-years-gun-violence/'
+    base: SOCIALDATA.baseURL
   },
   head: {
-    title: 'Coming of Age With Gun Violence',
+    title: SOCIALDATA.title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With eaqqch sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { property: 'og:title', content: 'Coming of Age With Gun Violence' },
-      { property: 'og:site_name', content: 'Coming of Age With Gun Violence' },
+      { hid: 'description', name: 'description', content: SOCIALDATA.description },
+      { property: 'og:title', content: SOCIALDATA.title },
+      { property: 'og:site_name', content: SOCIALDATA.title },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://interactive.yr.media/10-years-gun-violence/' },
-      { property: 'og:image', content: 'https://s3.amazonaws.com/media.youthradio.org/wp-content/uploads/2019/09/10222753/YR_GunViolence_feature-v2.jpg' },
-      { property: 'og:description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { property: 'og:image:alt', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { property: 'fb:app_id', content: '73080818131' },
+      { property: 'og:url', content: SOCIALDATA.url },
+      { property: 'og:image', content: SOCIALDATA.featureImage },
+      { property: 'og:description', content: SOCIALDATA.description },
+      { property: 'og:image:alt', content: SOCIALDATA.description },
+      { property: 'fb:app_id', content: SOCIALDATA.fbAppID },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:creator', content: '@itsyrmedia' },
-      { name: 'twitter:site', content: '@itsyrmedia' },
-      { name: 'twitter:title', content: 'Coming of Age With Gun Violence' },
-      { name: 'twitter:description', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { name: 'twitter:image', content: 'https://s3.amazonaws.com/media.youthradio.org/wp-content/uploads/2019/09/10222753/YR_GunViolence_feature-v2.jpg' },
-      { name: 'twitter:image:alt', content: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { itemprop: 'name', conten: 'Coming of Age With Gun Violence' },
-      { itemprop: 'description', conten: 'Across ten years of our gun violence reporting, the conversation on school shootings has shifted from “how to stop them” to “how to survive them.” With each sensational event, we turn our backs on the other forms of gun violence that shape our lives. This is what it sounds like to come of age in the gun violence of America.' },
-      { itemprop: 'image', conten: 'https://s3.amazonaws.com/media.youthradio.org/wp-content/uploads/2019/09/10222753/YR_GunViolence_feature-v2.jpg' }
-
+      { name: 'twitter:creator', content: SOCIALDATA.twitterHandler },
+      { name: 'twitter:site', content: SOCIALDATA.twitterHandler },
+      { name: 'twitter:title', content: SOCIALDATA.title },
+      { name: 'twitter:description', content: SOCIALDATA.description },
+      { name: 'twitter:image', content: SOCIALDATA.featureImage },
+      { name: 'twitter:image:alt', content: SOCIALDATA.description },
+      { itemprop: 'description', conten: SOCIALDATA.description },
+      { itemprop: 'image', conten: SOCIALDATA.featureImage },
+      { name: 'msapplication-TileColor', conten: '#da532c' },
+      { name: 'theme-color', conten: '#ffffff' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'apple-touch-icon', sizes: '180x180', href: 'favicon/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: 'favicon/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: 'favicon/favicon-16x16.png' },
+      { rel: 'manifest', href: 'favicon/site.webmanifest' },
+      { rel: 'mask-icon', color: '#5bbad5', href: 'favicon/safari-pinned-tab.svg' },
       { rel: 'stylesheet', href: 'https://yr.media/statics/yr-media-typography/yr-typography.css' }
     ]
   },
