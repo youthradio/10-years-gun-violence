@@ -85,9 +85,11 @@ export default {
     id: 'UA-6029148-3',
     config: {
       anonymize_ip: true, // anonymize IP
-      send_page_view: false // might be necessary to avoid duplicated page track on page reload
+      send_page_view: false, // might be necessary to avoid duplicated page track on page reload,
+      page_title: SOCIALDATA.title,
+      page_path: SOCIALDATA.baseURL
     },
-    debug: false, // enable to track in dev mode
+    debug: true, // enable to track in dev mode
     disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...).
   },
 
