@@ -31,10 +31,10 @@ export default {
       { name: 'twitter:description', content: SOCIALDATA.description },
       { name: 'twitter:image', content: SOCIALDATA.featureImage },
       { name: 'twitter:image:alt', content: SOCIALDATA.description },
-      { itemprop: 'description', conten: SOCIALDATA.description },
-      { itemprop: 'image', conten: SOCIALDATA.featureImage },
-      { name: 'msapplication-TileColor', conten: '#da532c' },
-      { name: 'theme-color', conten: '#ffffff' }
+      { itemprop: 'description', content: SOCIALDATA.description },
+      { itemprop: 'image', content: SOCIALDATA.featureImage },
+      { name: 'msapplication-TileColor', content: '#da532c' },
+      { name: 'theme-color', content: '#ffffff' }
     ],
     link: [
       { rel: 'icon', type: 'apple-touch-icon', sizes: '180x180', href: 'favicon/apple-touch-icon.png' },
